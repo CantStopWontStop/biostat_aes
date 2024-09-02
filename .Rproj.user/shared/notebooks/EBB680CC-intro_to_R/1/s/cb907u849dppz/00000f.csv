@@ -1,0 +1,11 @@
+"0","lbw_data %>% "
+"0","    ggplot(aes(x = age)) +"
+"0","    geom_histogram(fill = ""steelblue"") +"
+"0","    facet_wrap(~low) +"
+"0","    labs(title = ""Age of Mothers in Low Birth Weight Data"","
+"0","         x = ""Age"","
+"0","         y = ""Count"") +"
+"0","    theme_minimal()"
+"1","[38;5;231m`stat_bin()` using `bins = 30`. Pick better value with
+`binwidth`.[39m
+"

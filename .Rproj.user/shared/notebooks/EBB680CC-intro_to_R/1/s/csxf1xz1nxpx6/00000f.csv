@@ -1,0 +1,4 @@
+"0","lbw_data %>% "
+"0","    ggplot(aes(x = age, y = lwt)) +"
+"0","    geom_point(color = ""steelblue"") + # geom_smooth(method = ""lm"") +"
+"0","    theme_minimal()"

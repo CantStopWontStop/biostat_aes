@@ -1,0 +1,57 @@
+---
+title: "Biostatistics Day 4 (Practice)"
+format: html
+editor: visual
+---
+
+```{r}
+library(tidyverse)
+library(readxl)
+```
+
+```{r}
+ebola_data <- read_xlsx('Ebola_Sierra Leone.xlsx')
+
+ebola_data
+```
+
+```{r}
+
+ebola_data <- ebola_data %>% 
+    mutate( gender = if_else(sex == 1, 
+                             'female', 
+                             if_else(sex == 2, 
+                                     'male', 
+                                     NA_character_ )),
+            ebola_status = if_else(status == 0, 
+                                   'negative',
+                                    if_else(status ==1,
+                                            'positive', 
+                                            NA_character_))
+            )
+
+ebola_data
+```
+
+```{r}
+'ebola_data_set'
+```
+
+```{r}
+ebola_data %>% 
+    arrange(desc(age)) %>% 
+    head()
+```
+
+```{r}
+
+ebola_data %>%
+    summary()
+```
+
+```{r}
+
+ebola_data %>% 
+    summarise( mean_age = mean(age, na.rm = TRUE),
+               median_age = median(age, na.rm =ture))
+```

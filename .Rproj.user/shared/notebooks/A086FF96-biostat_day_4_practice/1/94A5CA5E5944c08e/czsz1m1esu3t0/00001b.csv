@@ -1,0 +1,3 @@
+"0","ebola_data %>% "
+"0","    arrange(id) %>% "
+"0","    head()"

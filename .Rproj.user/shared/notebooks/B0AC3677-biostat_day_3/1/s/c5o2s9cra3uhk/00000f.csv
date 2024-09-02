@@ -1,0 +1,8 @@
+"0",""
+"0","lbw_data_adult <- lbw_data %>% "
+"0","    mutate(adult_status   = if_else(age >= 18, ""adult"", ""minor""),"
+"0","           adult_status_2 = if_else(age >= 25, ""adult"", "
+"0","                             if_else(age >= 18 & age < 25, ""young adult"", ""minor"")))"
+"0",""
+"0",""
+"0","lbw_data_adult"

@@ -1,0 +1,112 @@
+---
+title: "Low Birth Weight Analysis"
+format: 
+    html:
+        code-fold: true
+        toc: true
+        
+execute: 
+  warning: false
+editor: visual
+---
+
+```{r}
+library(tidyverse)
+library(readxl)
+```
+
+# Setup
+
+## Import Data
+
+```{r}
+lbw_data <- read_excel("Low birth weight.xlsx")
+
+lbw_data
+```
+
+```{r}
+lbw_data %>% 
+    DT::datatable()
+```
+
+# Data Exploration
+
+## First N Rows
+
+```{r}
+lbw_data %>% 
+    head(5)
+```
+
+```{r}
+lbw_data %>% 
+    summary()
+```
+
+# Data Wrangling & Manipulation
+
+## Select Columns
+
+```{r}
+lbw_data %>% 
+    select(age, bwt, smoke)
+```
+
+## Filter Rows
+
+```{r}
+lbw_data %>% 
+    filter(age > 25)
+```
+
+## Mutate
+
+```{r}
+lbw_data %>% 
+    mutate(bwt_lb = bwt / 453.6)
+```
+
+# Data Visualization
+
+## Histogram
+
+```{r}
+lbw_data %>% 
+    ggplot(aes(x = age)) +
+    geom_histogram(fill = "steelblue") +
+    labs(title = "Age of Mothers in Low Birth Weight Data",
+         x = "Age",
+         y = "Count") +
+    theme_minimal()
+```
+
+## Histogram by Low Birth Weight
+
+```{r}
+lbw_data %>% 
+    ggplot(aes(x = age)) +
+    geom_histogram(fill = "steelblue") +
+    facet_wrap(~low) +
+    labs(title = "Age of Mothers in Low Birth Weight Data",
+         x = "Age",
+         y = "Count") +
+    theme_minimal()
+```
+
+```{r}
+lbw_data %>% 
+    ggplot(aes(x = age, y = lwt)) +
+    geom_point(color = "steelblue") + # geom_smooth(method = "lm") +
+    theme_minimal()
+```
+
+```{r}
+lbw_data %>% 
+    ggplot(aes(x = lwt, 
+               y = bwt)) +
+    geom_point(color = "steelblue") +# geom_smooth(method = "lm") +
+    labs(x = "Weight of Mother (lb)", 
+         y = "Weight of Baby (g)") +
+    theme_minimal()
+```

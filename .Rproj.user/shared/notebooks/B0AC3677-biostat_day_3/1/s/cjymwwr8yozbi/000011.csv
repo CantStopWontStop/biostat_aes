@@ -1,0 +1,4 @@
+"0","lbw_data_adult %>% "
+"0","    ggplot(aes(x = adult_status)) +"
+"0","    geom_bar(stat = 'count') +"
+"0","    theme_minimal()"

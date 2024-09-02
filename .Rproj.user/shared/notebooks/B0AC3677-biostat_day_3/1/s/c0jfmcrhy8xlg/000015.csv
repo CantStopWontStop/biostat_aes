@@ -1,0 +1,10 @@
+"0","lbw_data_adult %>% "
+"0","    ggplot(aes(x = lwt, "
+"0","               y = bwt)) +"
+"0","    geom_point(color = ""steelblue"") +"
+"0","    geom_smooth(method = ""lm"", color = ""red"") +"
+"0","    labs(x = ""Weight of Mother (lb)"", "
+"0","         y = ""Weight of Baby (g)"") +"
+"0","    theme_minimal()"
+"1","[38;5;231m`geom_smooth()` using formula = 'y ~ x'[39m
+"

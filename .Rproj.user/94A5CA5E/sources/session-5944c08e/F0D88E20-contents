@@ -1,0 +1,110 @@
+---
+title: "Biostatistics Day 3"
+format: html
+editor: visual
+execute:
+    warning: false
+---
+
+# Setup
+
+This section is to set up my project.
+
+## Load Packages
+
+```{r}
+library(tidyverse)
+library(readxl)
+```
+
+## Load Data
+
+```{r}
+lbw_data <- read_xlsx("Low birth weight.xlsx")
+```
+
+```{r}
+
+lbw_data_adult <- lbw_data %>% 
+    mutate(adult_status   = if_else(age >= 18, "adult", "minor"),
+           adult_status_2 = if_else(age >= 25, "adult", 
+                             if_else(age >= 18 & age < 25, "young adult", "minor")))
+
+
+lbw_data_adult
+```
+
+```{r}
+lbw_data_adult %>% 
+    ggplot(aes(x = adult_status)) +
+    geom_bar(stat = 'count') +
+    theme_minimal()
+```
+
+```{r}
+lbw_data_adult %>% 
+    ggplot(aes(x = id, y = age, fill = adult_status, 
+               color = adult_status)) +
+    geom_col() +
+    geom_point()
+    
+```
+
+```{r}
+lbw_data_adult %>% 
+    ggplot(aes(x = id, y = age)) +
+    geom_col(fill = "darkblue")
+```
+
+```{r}
+lbw_data_adult %>% 
+    ggplot(aes(x = id, y = age)) +
+    geom_col(aes(fill = adult_status)) +
+    geom_point()
+```
+
+```{r}
+lbw_data_adult %>% 
+    ggplot(aes(x = lwt, 
+               y = bwt)) +
+    geom_point(color = "steelblue") +
+    geom_smooth(method = "lm", color = "red") +
+    labs(x = "Weight of Mother (lb)", 
+         y = "Weight of Baby (g)") +
+    theme_minimal()
+```
+
+```{r}
+
+lbw_data_adult %>% 
+    ggplot(aes(x=age)) +
+    geom_density(fill = "lightblue") +
+    geom_vline(aes(xintercept=mean(age)),
+            color="blue", linetype="dashed", size=1) +
+    geom_vline(aes(xintercept=median(age)),
+               color="darkred",
+               linetype="dashed", size=1) +
+    theme_light()
+```
+
+```{r}
+lbw_data %>% 
+    ggplot(aes(x = age)) +
+    geom_histogram(fill = "steelblue") +
+    labs(title = "Age of Mothers in Low Birth Weight Data",
+         x = "Age",
+         y = "Count") +
+    theme_minimal()
+```
+
+```{r}
+
+lbw_data_adult %>% 
+    ggplot(aes(x = age)) +
+    geom_histogram(fill = "steelblue") +
+    facet_wrap(~adult_status) +
+    labs(title = "Age of Mothers in Low Birth Weight Data",
+         x = "Age",
+         y = "Count") +
+    theme_minimal()
+```

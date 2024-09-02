@@ -1,0 +1,3 @@
+"0",""
+"0","ebola_data %>% "
+"0","    summarise( mean_age = mean(age, na.rm = TRUE))"

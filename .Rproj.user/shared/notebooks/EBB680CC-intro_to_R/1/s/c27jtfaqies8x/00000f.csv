@@ -1,0 +1,7 @@
+"0","lbw_data %>% "
+"0","    ggplot(aes(x = lwt, "
+"0","               y = bwt)) +"
+"0","    geom_point(color = ""steelblue"") +# geom_smooth(method = ""lm"") +"
+"0","    labs(x = ""Weight of Mother (lb)"", "
+"0","         y = ""Weight of Baby (g)"") +"
+"0","    theme_minimal()"

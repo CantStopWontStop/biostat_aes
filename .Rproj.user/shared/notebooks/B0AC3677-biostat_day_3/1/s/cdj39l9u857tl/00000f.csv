@@ -1,0 +1,5 @@
+"0","lbw_data_adult %>% "
+"0","    ggplot(aes(x = id, y = age, fill = adult_status, "
+"0","               color = adult_status)) +"
+"0","    geom_col() +"
+"0","    geom_point()"
