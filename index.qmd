@@ -1,0 +1,212 @@
+---
+title: "Biostatistics Day 4"
+format: 
+    html:
+        code-fold: true
+        theme: flatly
+        toc: true
+        
+execute:
+    warning: false
+    
+editor: visual
+---
+
+# Set Up
+
+```{r}
+library(tidyverse)
+library(readxl)
+library(gt)
+library(DT)
+```
+
+```{r}
+ebola_data <- read_xlsx('Ebola_Sierra Leone.xlsx') %>% 
+  mutate(gender       = if_else(sex == 1, "female", 
+                          if_else(sex == 2, "male", 
+                                  NA_character_)),
+         ebola_status = if_else(status == 0, "negative", 
+                          if_else(status == 1, "positive", 
+                                  NA_character_)))
+
+ebola_data
+```
+
+```{r}
+head(ebola_data) %>% 
+    gt()
+```
+
+```{r}
+
+summary(ebola_data$age)
+```
+
+# Summary Statistics
+
+```{r}
+ebola_data %>% 
+  summarize(
+    mean_age = mean(age, na.rm = TRUE),
+    median_age = median(age, na.rm = TRUE),
+    sd_age = sd(age, na.rm = TRUE),
+    min_age = min(age, na.rm = TRUE),
+    max_age = max(age, na.rm = TRUE)
+  ) %>% 
+    gt()
+```
+
+```{r}
+
+ebola_data %>%
+  group_by(gender) %>%
+  summarize(count = n()) %>% 
+    gt()
+```
+
+```{r}
+
+ebola_data %>%
+  group_by(ebola_status) %>%
+  summarize(count = n()) %>% 
+    gt()
+```
+
+```{r}
+ebola_data %>%
+  group_by(district, ebola_status) %>%
+  summarize(count = n())%>% 
+    gt()
+
+ebola_data %>%
+    drop_na() %>% 
+  group_by(district, ebola_status) %>%
+  summarize(count = n())%>% 
+    gt()
+```
+
+# Contingency Tables
+
+```{r}
+contingency_table <- table(ebola_data$sex, ebola_data$status)
+
+contingency_table
+```
+
+```{r}
+prop_table <- prop.table(contingency_table)
+prop_table
+```
+
+# Visualizations
+
+```{r}
+
+ggplot(ebola_data, aes(x = ebola_status, 
+                       group = gender, 
+                       fill = gender)) +
+  geom_bar(position = "dodge") +
+  labs(title = "Health Status by Sex",
+       x = "Health Status",
+       y = "Count") +
+    theme_minimal()
+```
+
+```{r}
+ggplot(ebola_data, aes(x = age)) +
+  geom_histogram(binwidth = 5, 
+                 fill = "skyblue", 
+                 color = "black") +
+  labs(title = "Age Distribution",
+       x = "Age",
+       y = "Frequency") +
+    theme_minimal()
+```
+
+```{r}
+ggplot(ebola_data, 
+       aes(x = gender, y = age, fill = sex)) +
+  geom_boxplot() +
+  labs(title = "Age Distribution by Sex",
+       x = "Sex",
+       y = "Age") +
+    theme_minimal()
+
+```
+
+```{r}
+sex_data <- ebola_data %>%
+  group_by(sex) %>%
+  summarize(count = n()) %>%
+  mutate(percentage = (count / sum(count)) * 100)
+
+# Create the pie chart
+ggplot(sex_data, aes(x = "", y = percentage, fill = sex)) +
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y") +
+  labs(title = "Distribution of Cases by District", y = "", x = "") +
+  theme_void() +
+  geom_text(aes(label = paste0(round(percentage, 1), "%")), 
+            position = position_stack(vjust = 0.5))
+```
+
+# Frequency and Proportion Tables
+
+```{r}
+
+district_freq <- ebola_data %>%
+  group_by(district) %>%
+  summarize(count = n())%>%
+  mutate(percentage = (count / sum(count)) * 100) %>%
+  arrange(desc(count)) 
+
+district_freq %>% 
+    gt()
+```
+
+```{r}
+chiefdom_prop <- ebola_data %>%
+  group_by(chiefdom) %>%
+  summarize(count = n()) %>%
+  mutate(proportion = count / sum(count),
+         percentage = (count / sum(count)) * 100) %>%
+  arrange(desc(proportion))
+
+chiefdom_prop%>% 
+    gt()
+```
+
+# District-wise Analysis
+
+```{r}
+district_status <- ebola_data %>%
+  group_by(district, status) %>%
+  summarize(count = n()) %>%
+  ggplot(aes(x = district, y = count, fill = status)) +
+  geom_bar(stat = "identity", position = "fill") +
+  labs(title = "Health Status Distribution by District",
+       x = "District",
+       y = "Proportion") +
+  coord_flip()
+
+district_status
+```
+
+# Chi Square
+
+```{r}
+library(tidyverse)
+
+# Create a contingency table for sex and status
+contingency_table <- table(ebola_data$sex, ebola_data$status)
+
+# Perform the Chi-square test
+chi_square_test <- chisq.test(contingency_table)
+
+# Print the contingency table
+print(contingency_table)
+
+# Print the Chi-square test result
+print(chi_square_test)
+```
