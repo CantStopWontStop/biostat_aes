@@ -44,6 +44,13 @@ ebola_data %>%
 ```
 
 ```{r}
+ebola_data %>% 
+    drop_na(age) %>% 
+    arrange(age) %>% 
+    tail()
+```
+
+```{r}
 
 ebola_data %>%
     summary()
@@ -53,5 +60,42 @@ ebola_data %>%
 
 ebola_data %>% 
     summarise( mean_age = mean(age, na.rm = TRUE),
-               median_age = median(age, na.rm =ture))
+               median_age = median(age, na.rm =TRUE),
+               sd_age = sd(age, na.rm = TRUE),
+               min_age = min(age, na.rm = TRUE),
+               max_age = max(age, na.rm = TRUE))
+```
+
+```{r}
+ebola_data$age %>% 
+    summary()
+
+
+summary(ebola_data$age)
+```
+
+```{r}
+ebola_data %>% 
+    summarize(count = n(), 
+              age_years = sum(age, na.rm = TRUE))
+```
+
+```{r}
+ 
+ebola_data %>% 
+    # group my data by district
+    
+    group_by(district)  %>% 
+    summarize(count = n(),
+              mean_age = mean(age, na.rm = TRUE)
+              )
+```
+
+```{r}
+
+ebola_data %>% 
+    drop_na(gender) %>% 
+    group_by(district, gender) %>% 
+    summarise(count = n(), 
+              max_age = max(age, na.rm = TRUE))
 ```

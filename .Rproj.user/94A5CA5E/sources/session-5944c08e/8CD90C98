@@ -1,14 +1,14 @@
 {
-    "id": "C686D3B4",
+    "id": "8CD90C98",
     "path": "C:/Digital_Projects/GitHub/AES_Biostat_Day_3/index.qmd",
     "project_path": "index.qmd",
     "type": "quarto_markdown",
     "hash": "781717922",
     "contents": "",
     "dirty": false,
-    "created": 1725287574444.0,
+    "created": 1725360197999.0,
     "source_on_save": false,
-    "relative_order": 1,
+    "relative_order": 8,
     "properties": {
         "rmdVisualMode": "true",
         "rmdVisualWrapConfigured": "true",
@@ -16,8 +16,9 @@
         "Source": "Source",
         "docOutlineVisible": "1",
         "rmdVisualCollapsedChunks": "",
-        "rmdVisualModeLocation": "2:0",
-        "cursorPosition": "0,0",
+        "rmdVisualModeLocation": "1435:1697.142822265625",
+        "docOutlineSize": "134",
+        "cursorPosition": "90,0",
         "scrollLine": "0"
     },
     "folds": "",
@@ -25,7 +26,7 @@
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1725361392849,
+    "last_content_update": 1725361350895,
     "read_only": false,
     "read_only_alternatives": []
 }

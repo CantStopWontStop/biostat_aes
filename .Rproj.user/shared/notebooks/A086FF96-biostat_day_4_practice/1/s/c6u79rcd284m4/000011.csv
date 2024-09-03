@@ -1,0 +1,8 @@
+"0"," "
+"0","ebola_data %>% "
+"0","    # group my data by district"
+"0","    "
+"0","    group_by(district)  %>% "
+"0","    summarize(count = n(),"
+"0","              max_age = max(age, na.rm = TRUE)"
+"0","              )"

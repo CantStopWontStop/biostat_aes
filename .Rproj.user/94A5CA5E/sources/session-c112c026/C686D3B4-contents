@@ -89,6 +89,31 @@ ebola_data %>%
 # Contingency Tables
 
 ```{r}
+contingency_table <- table(ebola_data$district, 
+                           ebola_data$gender,
+                           ebola_data$ebola_status)
+
+contingency_table
+```
+
+```{r}
+prop_table <- prop.table(contingency_table)
+prop_table
+```
+
+```{r}
+
+ebola_data %>% 
+    drop_na() %>% 
+    group_by(gender, ebola_status) %>% 
+    summarise(count = n()) %>%
+    ungroup() %>% 
+  mutate(proportion = count / sum(count),
+         percentage = (count / sum(count)) * 100) %>%
+  arrange(desc(proportion))
+```
+
+```{r}
 contingency_table <- table(ebola_data$sex, ebola_data$status)
 
 contingency_table

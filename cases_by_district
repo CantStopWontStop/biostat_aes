@@ -1,0 +1,29 @@
+district,ebola_status,count
+Bo,negative,171
+Bo,positive,236
+Bombali,negative,55
+Bombali,positive,872
+Bonthe,negative,49
+Bonthe,positive,4
+Kailahun,negative,42
+Kailahun,positive,474
+Kambia,negative,144
+Kambia,positive,225
+Kenema,negative,142
+Kenema,positive,402
+Koinadugu,negative,19
+Koinadugu,positive,69
+Kono,negative,195
+Kono,positive,226
+Moyamba,negative,137
+Moyamba,positive,177
+Port Loko,negative,273
+Port Loko,positive,1038
+Pujehun,negative,49
+Pujehun,positive,20
+Tonkolili,negative,20
+Tonkolili,positive,417
+Western Rural,negative,236
+Western Rural,positive,940
+Western Urban,negative,601
+Western Urban,positive,1852

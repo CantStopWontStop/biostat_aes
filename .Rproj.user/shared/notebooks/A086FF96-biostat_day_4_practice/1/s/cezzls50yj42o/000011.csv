@@ -1,0 +1,8 @@
+"0","ebola_data %>% "
+"0","    drop_na() %>% "
+"0","    group_by(district, ebola_status) %>% "
+"0","    summarise(count = n()) %>% "
+"0","    write_csv(""cases_by_district.csv"")"
+"1","[38;5;231m`summarise()` has grouped output by 'district'. You can
+override using the `.groups` argument.[39m
+"

@@ -1,0 +1,10 @@
+"0",""
+"0","ebola_data %>% "
+"0","    drop_na(gender) %>% "
+"0","    group_by(district, gender) %>% "
+"0","    summarise(count = n(), "
+"0","              max_age = max(age, na.rm = TRUE)) %>% "
+"0","    arrange(max_age %>% desc())"
+"1","[38;5;231m`summarise()` has grouped output by 'district'. You can
+override using the `.groups` argument.[39m
+"

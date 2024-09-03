@@ -1,0 +1,12 @@
+"0",""
+"0","ebola_data %>% "
+"0","    drop_na() %>% "
+"0","    group_by(gender, ebola_status) %>% "
+"0","    summarise(count = n()) %>%"
+"0","    ungroup() %>% "
+"0","  mutate(proportion = count / sum(count),"
+"0","         percentage = (count / sum(count)) * 100) %>%"
+"0","  arrange(desc(proportion))"
+"1","[38;5;231m`summarise()` has grouped output by 'gender'. You can override using the
+`.groups` argument.[39m
+"

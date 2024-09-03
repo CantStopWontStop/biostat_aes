@@ -125,27 +125,4 @@ ebola_data %>%
     summarise(count = n())
 ```
 
-```{r}
-
-contingency_table <- table(ebola_data$gender, ebola_data$ebola_status)
-
-contingency_table
-```
-
-```{r}
-prop_table <- prop.table(contingency_table)
-prop_table
-```
-
-```{r}
-
-ebola_data %>% 
-    drop_na() %>% 
-    group_by(gender, ebola_status) %>% 
-    summarise(count = n()) %>%
-    ungroup() %>% 
-  mutate(proportion = count / sum(count),
-         percentage = (count / sum(count)) * 100) %>%
-  arrange(desc(proportion))
-    
-```
+/
