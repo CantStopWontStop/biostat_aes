@@ -5,6 +5,7 @@ format:
         code-fold: true
         theme: flatly
         toc: true
+        toc-depth: 4
         
 execute:
     warning: false
@@ -52,6 +53,8 @@ editor: visual
 
 #### **Modulo operator (%%)**
 
+------------------------------------------------------------------------
+
 ### Relational Operators
 
 #### **Less than (\<)**
@@ -66,7 +69,15 @@ editor: visual
 
 #### **Not equal to (!=)**
 
+------------------------------------------------------------------------
+
 ### Logical Operators
+
+#### **AND operator (&)**
+
+#### **OR operator (\|)**
+
+#### **NOT operator (!)**
 
 ### Vectors
 
