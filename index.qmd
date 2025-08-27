@@ -3,28 +3,31 @@ title: "African Epidemic Service - Biostatistics"
 title-block-banner: true
 format: 
     html:
-        code-fold: true
         theme: flatly
         toc: true
         toc-depth: 4
         
 execute:
     warning: false
+    echo: true
+    output: true
     
 editor: visual
 ---
 
-# Set Up
+# DAY 1
 
-## [cantstopwontstop.github.io/biostat_aes](https://cantstopwontstop.github.io/biostat_aes/)
+## Set Up
+
+### [cantstopwontstop.github.io/biostat_aes](https://cantstopwontstop.github.io/biostat_aes/)
 
 [R - Cran](https://cran.r-project.org/){target="'_blank'"}
 
 [RStudio](https://posit.co/downloads/){target="'_blank'"}
 
-# Introduction
+## Introduction
 
-## RStudio
+### RStudio
 
 -   Files
 
@@ -40,65 +43,195 @@ editor: visual
 
 -   Packages
 
-## R
+### R
 
-### Operators
+#### Operators
 
-#### Arithmetic Operators
+##### Arithmetic Operators
 
 Addition operator (+)
 
+```{r}
+200 + 175
+```
+
 Subtraction operator (-)
+
+```{r}
+200 - 175
+```
 
 Multiplication operator (\*)
 
+```{r}
+amount <- 200 * 175
+amount
+```
+
 Division operator (/)
+
+```{r}
+200 / 175
+```
 
 Power operator (\^)
 
+```{r}
+
+200 ^ 5
+```
+
 Modulo operator (%%)
 
-#### Relational Operators
+```{r}
+10 %% 2
+```
+
+```{r}
+10 %% 4
+```
+
+##### Relational Operators
 
 Less than (\<)
 
+```{r}
+ 
+10 < 8
+```
+
 Greater than (\>)
+
+```{r}
+10 > 8
+```
 
 Equal to (==)
 
+```{r}
+10 == 8
+```
+
 Less than or equal to (\<=)
+
+```{r}
+10 <= 8
+```
 
 Greater than or equal to (\>=)
 
+```{r}
+
+10 >= 8
+```
+
+```{r}
+8 >= 8
+```
+
 Not equal to (!=)
 
-#### Logical Operators
+```{r}
+10 != 8
+```
+
+##### Logical Operators
 
 AND operator (&)
 
+```{r}
+TRUE & TRUE
+TRUE & FALSE
+FALSE & FALSE
+```
+
 OR operator (\|)
+
+```{r}
+TRUE | TRUE
+TRUE | FALSE
+FALSE | FALSE
+```
 
 NOT operator (!)
 
-### Data Types
+```{r}
+!FALSE
+!TRUE
+```
+
+#### Data Types
 
 Logical
 
-Integer
+```{r}
+status <- TRUE
+status
+```
 
-Numeric
+Integer / Numeric
+
+```{r}
+age <- 48
+age
+```
 
 Character
 
-Factor
+```{r}
+name <- "Traore"
+name
+```
 
 Vectors
 
+```{r}
+superstars <- c('Messi', 'Ronaldo', 'Salah', 'Mbappe', 'Saka', 'Dembele')
+superstars
+```
+
+```{r}
+ages <- c(38, 39, 33, 26, 23, 28)
+ages
+```
+
+```{r}
+world_cup_winner <- c(TRUE, FALSE, FALSE, TRUE, FALSE, TRUE)
+world_cup_winner
+```
+
 Data frames
 
-### Functions
+```{r}
+superstar_data <- data.frame(superstars, ages, world_cup_winner)
+superstar_data
+```
 
-### Packages
+#### Functions
+
+```{r}
+avg_age <- mean(superstar_data$ages)
+avg_age
+```
+
+```{r}
+oldest <- max(superstar_data$ages)
+oldest
+```
+
+```{r}
+youngest <- min(superstar_data$ages)
+youngest
+```
+
+# DAY 2
+
+## Packages
+
+```{r}
+library(tidyverse)
+library(readxl)
+```
 
 ## Practice Data
 
