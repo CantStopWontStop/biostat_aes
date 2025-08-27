@@ -1,5 +1,6 @@
 ---
-title: "AES Biostatistics"
+title: "African Epidemic Service - Biostatistics"
+title-block-banner: true
 format: 
     html:
         code-fold: true
@@ -39,49 +40,61 @@ editor: visual
 
 ## R
 
-### Arithmetic Operators
+### Operators
 
-#### **Addition operator (+)**
+#### Arithmetic Operators
 
-#### **Subtraction operator (-)**
+Addition operator (+)
 
-#### **Multiplication operator (\*)**
+Subtraction operator (-)
 
-#### **Division operator (/)**
+Multiplication operator (\*)
 
-#### **Power operator (\^)**
+Division operator (/)
 
-#### **Modulo operator (%%)**
+Power operator (\^)
 
-------------------------------------------------------------------------
+Modulo operator (%%)
 
-### Relational Operators
+#### Relational Operators
 
-#### **Less than (\<)**
+Less than (\<)
 
-#### **Greater than (\>)**
+Greater than (\>)
 
-#### **Equal to (==)**
+Equal to (==)
 
-#### **Less than or equal to (\<=)**
+Less than or equal to (\<=)
 
-#### **Greater than or equal to (\>=)**
+Greater than or equal to (\>=)
 
-#### **Not equal to (!=)**
+Not equal to (!=)
 
-------------------------------------------------------------------------
+#### Logical Operators
 
-### Logical Operators
+AND operator (&)
 
-#### **AND operator (&)**
+OR operator (\|)
 
-#### **OR operator (\|)**
+NOT operator (!)
 
-#### **NOT operator (!)**
+### Data Types
 
-### Vectors
+Logical
 
-### Data frames
+Integer
+
+Numeric
+
+Character
+
+Factor
+
+Posit
+
+Vectors
+
+Data frames
 
 ### Functions
 

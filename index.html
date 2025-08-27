@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>AES Biostatistics</title>
+<title>African Epidemic Service - Biostatistics</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -39,7 +39,23 @@ ul.task-list li input[type="checkbox"] {
 
 <body>
 
-<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">African Epidemic Service - Biostatistics</h1>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
 <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
   <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
@@ -51,32 +67,13 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#rstudio" id="toc-rstudio" class="nav-link" data-scroll-target="#rstudio">RStudio</a></li>
   <li><a href="#r" id="toc-r" class="nav-link" data-scroll-target="#r">R</a>
   <ul class="collapse">
-  <li><a href="#arithmetic-operators" id="toc-arithmetic-operators" class="nav-link" data-scroll-target="#arithmetic-operators">Arithmetic Operators</a>
+  <li><a href="#operators" id="toc-operators" class="nav-link" data-scroll-target="#operators">Operators</a>
   <ul class="collapse">
-  <li><a href="#addition-operator" id="toc-addition-operator" class="nav-link" data-scroll-target="#addition-operator"><strong>Addition operator (+)</strong></a></li>
-  <li><a href="#subtraction-operator--" id="toc-subtraction-operator--" class="nav-link" data-scroll-target="#subtraction-operator--"><strong>Subtraction operator (-)</strong></a></li>
-  <li><a href="#multiplication-operator" id="toc-multiplication-operator" class="nav-link" data-scroll-target="#multiplication-operator"><strong>Multiplication operator (*)</strong></a></li>
-  <li><a href="#division-operator" id="toc-division-operator" class="nav-link" data-scroll-target="#division-operator"><strong>Division operator (/)</strong></a></li>
-  <li><a href="#power-operator" id="toc-power-operator" class="nav-link" data-scroll-target="#power-operator"><strong>Power operator (^)</strong></a></li>
-  <li><a href="#modulo-operator" id="toc-modulo-operator" class="nav-link" data-scroll-target="#modulo-operator"><strong>Modulo operator (%%)</strong></a></li>
+  <li><a href="#arithmetic-operators" id="toc-arithmetic-operators" class="nav-link" data-scroll-target="#arithmetic-operators">Arithmetic Operators</a></li>
+  <li><a href="#relational-operators" id="toc-relational-operators" class="nav-link" data-scroll-target="#relational-operators">Relational Operators</a></li>
+  <li><a href="#logical-operators" id="toc-logical-operators" class="nav-link" data-scroll-target="#logical-operators">Logical Operators</a></li>
   </ul></li>
-  <li><a href="#relational-operators" id="toc-relational-operators" class="nav-link" data-scroll-target="#relational-operators">Relational Operators</a>
-  <ul class="collapse">
-  <li><a href="#less-than" id="toc-less-than" class="nav-link" data-scroll-target="#less-than"><strong>Less than (&lt;)</strong></a></li>
-  <li><a href="#greater-than" id="toc-greater-than" class="nav-link" data-scroll-target="#greater-than"><strong>Greater than (&gt;)</strong></a></li>
-  <li><a href="#equal-to" id="toc-equal-to" class="nav-link" data-scroll-target="#equal-to"><strong>Equal to (==)</strong></a></li>
-  <li><a href="#less-than-or-equal-to" id="toc-less-than-or-equal-to" class="nav-link" data-scroll-target="#less-than-or-equal-to"><strong>Less than or equal to (&lt;=)</strong></a></li>
-  <li><a href="#greater-than-or-equal-to" id="toc-greater-than-or-equal-to" class="nav-link" data-scroll-target="#greater-than-or-equal-to"><strong>Greater than or equal to (&gt;=)</strong></a></li>
-  <li><a href="#not-equal-to" id="toc-not-equal-to" class="nav-link" data-scroll-target="#not-equal-to"><strong>Not equal to (!=)</strong></a></li>
-  </ul></li>
-  <li><a href="#logical-operators" id="toc-logical-operators" class="nav-link" data-scroll-target="#logical-operators">Logical Operators</a>
-  <ul class="collapse">
-  <li><a href="#and-operator" id="toc-and-operator" class="nav-link" data-scroll-target="#and-operator"><strong>AND operator (&amp;)</strong></a></li>
-  <li><a href="#or-operator" id="toc-or-operator" class="nav-link" data-scroll-target="#or-operator"><strong>OR operator (|)</strong></a></li>
-  <li><a href="#not-operator" id="toc-not-operator" class="nav-link" data-scroll-target="#not-operator"><strong>NOT operator (!)</strong></a></li>
-  </ul></li>
-  <li><a href="#vectors" id="toc-vectors" class="nav-link" data-scroll-target="#vectors">Vectors</a></li>
-  <li><a href="#data-frames" id="toc-data-frames" class="nav-link" data-scroll-target="#data-frames">Data frames</a></li>
+  <li><a href="#data-types" id="toc-data-types" class="nav-link" data-scroll-target="#data-types">Data Types</a></li>
   <li><a href="#functions" id="toc-functions" class="nav-link" data-scroll-target="#functions">Functions</a></li>
   <li><a href="#packages" id="toc-packages" class="nav-link" data-scroll-target="#packages">Packages</a></li>
   </ul></li>
@@ -85,25 +82,10 @@ ul.task-list li input[type="checkbox"] {
   </ul>
 </nav>
 </div>
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">AES Biostatistics</h1>
-</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
-<div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
-
-
-</header>
 
 
 <section id="set-up" class="level1">
@@ -129,67 +111,43 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="r" class="level2">
 <h2 class="anchored" data-anchor-id="r">R</h2>
-<section id="arithmetic-operators" class="level3">
-<h3 class="anchored" data-anchor-id="arithmetic-operators">Arithmetic Operators</h3>
-<section id="addition-operator" class="level4">
-<h4 class="anchored" data-anchor-id="addition-operator"><strong>Addition operator (+)</strong></h4>
+<section id="operators" class="level3">
+<h3 class="anchored" data-anchor-id="operators">Operators</h3>
+<section id="arithmetic-operators" class="level4">
+<h4 class="anchored" data-anchor-id="arithmetic-operators">Arithmetic Operators</h4>
+<p>Addition operator (+)</p>
+<p>Subtraction operator (-)</p>
+<p>Multiplication operator (*)</p>
+<p>Division operator (/)</p>
+<p>Power operator (^)</p>
+<p>Modulo operator (%%)</p>
 </section>
-<section id="subtraction-operator--" class="level4">
-<h4 class="anchored" data-anchor-id="subtraction-operator--"><strong>Subtraction operator (-)</strong></h4>
+<section id="relational-operators" class="level4">
+<h4 class="anchored" data-anchor-id="relational-operators">Relational Operators</h4>
+<p>Less than (&lt;)</p>
+<p>Greater than (&gt;)</p>
+<p>Equal to (==)</p>
+<p>Less than or equal to (&lt;=)</p>
+<p>Greater than or equal to (&gt;=)</p>
+<p>Not equal to (!=)</p>
 </section>
-<section id="multiplication-operator" class="level4">
-<h4 class="anchored" data-anchor-id="multiplication-operator"><strong>Multiplication operator (*)</strong></h4>
-</section>
-<section id="division-operator" class="level4">
-<h4 class="anchored" data-anchor-id="division-operator"><strong>Division operator (/)</strong></h4>
-</section>
-<section id="power-operator" class="level4">
-<h4 class="anchored" data-anchor-id="power-operator"><strong>Power operator (^)</strong></h4>
-</section>
-<section id="modulo-operator" class="level4">
-<h4 class="anchored" data-anchor-id="modulo-operator"><strong>Modulo operator (%%)</strong></h4>
-<hr>
-</section>
-</section>
-<section id="relational-operators" class="level3">
-<h3 class="anchored" data-anchor-id="relational-operators">Relational Operators</h3>
-<section id="less-than" class="level4">
-<h4 class="anchored" data-anchor-id="less-than"><strong>Less than (&lt;)</strong></h4>
-</section>
-<section id="greater-than" class="level4">
-<h4 class="anchored" data-anchor-id="greater-than"><strong>Greater than (&gt;)</strong></h4>
-</section>
-<section id="equal-to" class="level4">
-<h4 class="anchored" data-anchor-id="equal-to"><strong>Equal to (==)</strong></h4>
-</section>
-<section id="less-than-or-equal-to" class="level4">
-<h4 class="anchored" data-anchor-id="less-than-or-equal-to"><strong>Less than or equal to (&lt;=)</strong></h4>
-</section>
-<section id="greater-than-or-equal-to" class="level4">
-<h4 class="anchored" data-anchor-id="greater-than-or-equal-to"><strong>Greater than or equal to (&gt;=)</strong></h4>
-</section>
-<section id="not-equal-to" class="level4">
-<h4 class="anchored" data-anchor-id="not-equal-to"><strong>Not equal to (!=)</strong></h4>
-<hr>
+<section id="logical-operators" class="level4">
+<h4 class="anchored" data-anchor-id="logical-operators">Logical Operators</h4>
+<p>AND operator (&amp;)</p>
+<p>OR operator (|)</p>
+<p>NOT operator (!)</p>
 </section>
 </section>
-<section id="logical-operators" class="level3">
-<h3 class="anchored" data-anchor-id="logical-operators">Logical Operators</h3>
-<section id="and-operator" class="level4">
-<h4 class="anchored" data-anchor-id="and-operator"><strong>AND operator (&amp;)</strong></h4>
-</section>
-<section id="or-operator" class="level4">
-<h4 class="anchored" data-anchor-id="or-operator"><strong>OR operator (|)</strong></h4>
-</section>
-<section id="not-operator" class="level4">
-<h4 class="anchored" data-anchor-id="not-operator"><strong>NOT operator (!)</strong></h4>
-</section>
-</section>
-<section id="vectors" class="level3">
-<h3 class="anchored" data-anchor-id="vectors">Vectors</h3>
-</section>
-<section id="data-frames" class="level3">
-<h3 class="anchored" data-anchor-id="data-frames">Data frames</h3>
+<section id="data-types" class="level3">
+<h3 class="anchored" data-anchor-id="data-types">Data Types</h3>
+<p>Logical</p>
+<p>Integer</p>
+<p>Numeric</p>
+<p>Character</p>
+<p>Factor</p>
+<p>Posit</p>
+<p>Vectors</p>
+<p>Data frames</p>
 </section>
 <section id="functions" class="level3">
 <h3 class="anchored" data-anchor-id="functions">Functions</h3>
