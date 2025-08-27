@@ -22,8 +22,62 @@ editor: visual
 
 ## RStudio
 
-Console, script, environment, plots, packages
+-   Console
+
+-   Environment
+
+-   Files
+
+    -   Script
+
+    -   Quarto
+
+-   Plots
+
+-   Packages
 
 ## R
 
-Operations, objects, vectors, factors, matrices, data frames, tibbles
+### Arithmetic Operators
+
+#### **Addition operator (+)**
+
+#### **Subtraction operator (-)**
+
+#### **Multiplication operator (\*)**
+
+#### **Division operator (/)**
+
+#### **Power operator (\^)**
+
+#### **Modulo operator (%%)**
+
+### Relational Operators
+
+#### **Less than (\<)**
+
+#### **Greater than (\>)**
+
+#### **Equal to (==)**
+
+#### **Less than or equal to (\<=)**
+
+#### **Greater than or equal to (\>=)**
+
+#### **Not equal to (!=)**
+
+### Logical Operators
+
+### Vectors
+
+### Data frames
+
+### Functions
+
+### Packages
+
+## Practice Data
+
+[Low Birth Weight](https://github.com/CantStopWontStop/biostat_aes/blob/master/Low%20birth%20weight.xlsx)
+
+[Sierra Leone Ebola](https://github.com/CantStopWontStop/biostat_aes/blob/master/Ebola_Sierra%20Leone.xlsx)
