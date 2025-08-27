@@ -16,23 +16,23 @@ editor: visual
 
 # Set Up
 
-[R - Cran](https://cran.r-project.org/)
+[R - Cran](https://cran.r-project.org/){target="'_blank'"}
 
-[RStudio](https://posit.co/downloads/)
+[RStudio](https://posit.co/downloads/){target="'_blank'"}
 
 # Introduction
 
 ## RStudio
-
--   Console
-
--   Environment
 
 -   Files
 
     -   Script
 
     -   Quarto
+
+-   Console
+
+-   Environment
 
 -   Plots
 
