@@ -16,6 +16,8 @@ editor: visual
 
 # Set Up
 
+## <https://cantstopwontstop.github.io/biostat_aes/>
+
 [R - Cran](https://cran.r-project.org/){target="'_blank'"}
 
 [RStudio](https://posit.co/downloads/){target="'_blank'"}
@@ -89,8 +91,6 @@ Numeric
 Character
 
 Factor
-
-Posit
 
 Vectors
 
