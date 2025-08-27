@@ -22,8 +22,8 @@ editor: visual
 
 ## RStudio
 
-console, script, environment, plots, packages
+Console, script, environment, plots, packages
 
 ## R
 
-Operations, objects Vectors, factors, matrices, data frames, tibbles
+Operations, objects, vectors, factors, matrices, data frames, tibbles
