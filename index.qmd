@@ -16,7 +16,7 @@ editor: visual
 
 # Set Up
 
-## <https://cantstopwontstop.github.io/biostat_aes/>
+## [cantstopwontstop.github.io/biostat_aes](https://cantstopwontstop.github.io/biostat_aes/)
 
 [R - Cran](https://cran.r-project.org/){target="'_blank'"}
 
