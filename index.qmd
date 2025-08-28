@@ -326,9 +326,52 @@ ebola_sl %>%
     arrange(age %>% desc())
 ```
 
-mutate()
+### mutate()
 
-factor()
+Mutate is used to create new columns or change existing columns.
+
+```{r}
+ebola_sl %>% 
+    mutate(day_of_sample = as.Date(date_of_sample),
+          day_of_onset = as.Date(date_of_onset), 
+          timeframe = day_of_sample - day_of_onset) %>%
+    select(day_of_sample, day_of_onset, timeframe)
+    
+```
+
+### factor()
+
+```{r}
+ebola_sl %>% 
+    mutate(
+        sex = factor(sex, 
+                     levels = c(1,2),
+                     labels = c("female", "male")),
+        status = factor(status,
+                        levels = c(1,0),
+                        labels = c("positive", "negative") ),       # Convert to factor
+        # Create 'age_group' based on the 'age' column
+        age_group = case_when(
+            age < 5 ~ "0-4", 
+            age >= 5 & age < 15 ~ "5-14",
+            age >= 15 & age < 25 ~ "15-24",
+            age >= 25 & age < 45 ~ "25-44",
+            age >= 45 & age < 65 ~ "45-64",
+            age >= 65 ~ "65+",
+            TRUE ~ NA_character_  # Handle missing values by assigning NA
+        ),
+        # Convert 'age_group' to factor with specified order
+        age_group = factor(age_group, 
+                           levels = c("0-4", 
+                                      "5-14", 
+                                      "15-24", 
+                                      "25-44", 
+                                      "45-64", 
+                                      "65+")
+                           )
+
+    )
+```
 
 ### summarise()
 

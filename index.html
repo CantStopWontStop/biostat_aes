@@ -126,6 +126,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#select" id="toc-select" class="nav-link" data-scroll-target="#select">select()</a></li>
   <li><a href="#filter" id="toc-filter" class="nav-link" data-scroll-target="#filter">filter()</a></li>
   <li><a href="#arrange" id="toc-arrange" class="nav-link" data-scroll-target="#arrange">arrange()</a></li>
+  <li><a href="#mutate" id="toc-mutate" class="nav-link" data-scroll-target="#mutate">mutate()</a></li>
+  <li><a href="#factor" id="toc-factor" class="nav-link" data-scroll-target="#factor">factor()</a></li>
   <li><a href="#summarise" id="toc-summarise" class="nav-link" data-scroll-target="#summarise">summarise()</a></li>
   </ul></li>
   <li><a href="#plotting" id="toc-plotting" class="nav-link" data-scroll-target="#plotting">Plotting</a></li>
@@ -720,19 +722,95 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 # ℹ 153 more rows</code></pre>
 </div>
 </div>
-<p>mutate()</p>
-<p>factor()</p>
+</section>
+<section id="mutate" class="level3">
+<h3 class="anchored" data-anchor-id="mutate">mutate()</h3>
+<p>Mutate is used to create new columns or change existing columns.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>ebola_sl <span class="sc">%&gt;%</span> </span>
+<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">day_of_sample =</span> <span class="fu">as.Date</span>(date_of_sample),</span>
+<span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">day_of_onset =</span> <span class="fu">as.Date</span>(date_of_onset), </span>
+<span id="cb90-4"><a href="#cb90-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">timeframe =</span> day_of_sample <span class="sc">-</span> day_of_onset) <span class="sc">%&gt;%</span></span>
+<span id="cb90-5"><a href="#cb90-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(day_of_sample, day_of_onset, timeframe)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 11,903 × 3
+   day_of_sample day_of_onset timeframe
+   &lt;date&gt;        &lt;date&gt;       &lt;drtn&gt;   
+ 1 2014-05-23    2014-05-18   5 days   
+ 2 2014-05-25    2014-05-20   5 days   
+ 3 2014-05-25    2014-05-20   5 days   
+ 4 2014-05-26    2014-05-21   5 days   
+ 5 2014-05-26    2014-05-21   5 days   
+ 6 2014-05-26    2014-05-21   5 days   
+ 7 2014-05-26    2014-05-21   5 days   
+ 8 2014-05-27    2014-05-22   5 days   
+ 9 2014-05-27    2014-05-22   5 days   
+10 2014-05-27    2014-05-22   5 days   
+# ℹ 11,893 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="factor" class="level3">
+<h3 class="anchored" data-anchor-id="factor">factor()</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a>ebola_sl <span class="sc">%&gt;%</span> </span>
+<span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb92-3"><a href="#cb92-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">sex =</span> <span class="fu">factor</span>(sex, </span>
+<span id="cb92-4"><a href="#cb92-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>),</span>
+<span id="cb92-5"><a href="#cb92-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"female"</span>, <span class="st">"male"</span>)),</span>
+<span id="cb92-6"><a href="#cb92-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">status =</span> <span class="fu">factor</span>(status,</span>
+<span id="cb92-7"><a href="#cb92-7" aria-hidden="true" tabindex="-1"></a>                        <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),</span>
+<span id="cb92-8"><a href="#cb92-8" aria-hidden="true" tabindex="-1"></a>                        <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"positive"</span>, <span class="st">"negative"</span>) ),       <span class="co"># Convert to factor</span></span>
+<span id="cb92-9"><a href="#cb92-9" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Create 'age_group' based on the 'age' column</span></span>
+<span id="cb92-10"><a href="#cb92-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">age_group =</span> <span class="fu">case_when</span>(</span>
+<span id="cb92-11"><a href="#cb92-11" aria-hidden="true" tabindex="-1"></a>            age <span class="sc">&lt;</span> <span class="dv">5</span> <span class="sc">~</span> <span class="st">"0-4"</span>, </span>
+<span id="cb92-12"><a href="#cb92-12" aria-hidden="true" tabindex="-1"></a>            age <span class="sc">&gt;=</span> <span class="dv">5</span> <span class="sc">&amp;</span> age <span class="sc">&lt;</span> <span class="dv">15</span> <span class="sc">~</span> <span class="st">"5-14"</span>,</span>
+<span id="cb92-13"><a href="#cb92-13" aria-hidden="true" tabindex="-1"></a>            age <span class="sc">&gt;=</span> <span class="dv">15</span> <span class="sc">&amp;</span> age <span class="sc">&lt;</span> <span class="dv">25</span> <span class="sc">~</span> <span class="st">"15-24"</span>,</span>
+<span id="cb92-14"><a href="#cb92-14" aria-hidden="true" tabindex="-1"></a>            age <span class="sc">&gt;=</span> <span class="dv">25</span> <span class="sc">&amp;</span> age <span class="sc">&lt;</span> <span class="dv">45</span> <span class="sc">~</span> <span class="st">"25-44"</span>,</span>
+<span id="cb92-15"><a href="#cb92-15" aria-hidden="true" tabindex="-1"></a>            age <span class="sc">&gt;=</span> <span class="dv">45</span> <span class="sc">&amp;</span> age <span class="sc">&lt;</span> <span class="dv">65</span> <span class="sc">~</span> <span class="st">"45-64"</span>,</span>
+<span id="cb92-16"><a href="#cb92-16" aria-hidden="true" tabindex="-1"></a>            age <span class="sc">&gt;=</span> <span class="dv">65</span> <span class="sc">~</span> <span class="st">"65+"</span>,</span>
+<span id="cb92-17"><a href="#cb92-17" aria-hidden="true" tabindex="-1"></a>            <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span>  <span class="co"># Handle missing values by assigning NA</span></span>
+<span id="cb92-18"><a href="#cb92-18" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb92-19"><a href="#cb92-19" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Convert 'age_group' to factor with specified order</span></span>
+<span id="cb92-20"><a href="#cb92-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">age_group =</span> <span class="fu">factor</span>(age_group, </span>
+<span id="cb92-21"><a href="#cb92-21" aria-hidden="true" tabindex="-1"></a>                           <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"0-4"</span>, </span>
+<span id="cb92-22"><a href="#cb92-22" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"5-14"</span>, </span>
+<span id="cb92-23"><a href="#cb92-23" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"15-24"</span>, </span>
+<span id="cb92-24"><a href="#cb92-24" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"25-44"</span>, </span>
+<span id="cb92-25"><a href="#cb92-25" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"45-64"</span>, </span>
+<span id="cb92-26"><a href="#cb92-26" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"65+"</span>)</span>
+<span id="cb92-27"><a href="#cb92-27" aria-hidden="true" tabindex="-1"></a>                           )</span>
+<span id="cb92-28"><a href="#cb92-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb92-29"><a href="#cb92-29" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 11,903 × 9
+      id   age sex    status   date_of_onset       date_of_sample      district
+   &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt;  &lt;fct&gt;    &lt;dttm&gt;              &lt;dttm&gt;              &lt;chr&gt;   
+ 1     1    20 female positive 2014-05-18 00:00:00 2014-05-23 00:00:00 Kailahun
+ 2     2    42 female positive 2014-05-20 00:00:00 2014-05-25 00:00:00 Kailahun
+ 3     3    45 female positive 2014-05-20 00:00:00 2014-05-25 00:00:00 Kailahun
+ 4     4    15 female positive 2014-05-21 00:00:00 2014-05-26 00:00:00 Kailahun
+ 5     5    19 female positive 2014-05-21 00:00:00 2014-05-26 00:00:00 Kailahun
+ 6     6    55 female positive 2014-05-21 00:00:00 2014-05-26 00:00:00 Kailahun
+ 7     7    50 female positive 2014-05-21 00:00:00 2014-05-26 00:00:00 Kailahun
+ 8     8     8 female positive 2014-05-22 00:00:00 2014-05-27 00:00:00 Kailahun
+ 9     9    54 female positive 2014-05-22 00:00:00 2014-05-27 00:00:00 Kailahun
+10    10    57 female positive 2014-05-22 00:00:00 2014-05-27 00:00:00 Kailahun
+# ℹ 11,893 more rows
+# ℹ 2 more variables: chiefdom &lt;chr&gt;, age_group &lt;fct&gt;</code></pre>
+</div>
+</div>
 </section>
 <section id="summarise" class="level3">
 <h3 class="anchored" data-anchor-id="summarise">summarise()</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>ebola_sl <span class="sc">%&gt;%</span> </span>
-<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(</span>
-<span id="cb90-4"><a href="#cb90-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_age =</span> <span class="fu">mean</span>(age),</span>
-<span id="cb90-5"><a href="#cb90-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">max_age  =</span> <span class="fu">max</span>(age),</span>
-<span id="cb90-6"><a href="#cb90-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">num_cases =</span> <span class="fu">sum</span>(status)</span>
-<span id="cb90-7"><a href="#cb90-7" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>ebola_sl <span class="sc">%&gt;%</span> </span>
+<span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb94-3"><a href="#cb94-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(</span>
+<span id="cb94-4"><a href="#cb94-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_age =</span> <span class="fu">mean</span>(age),</span>
+<span id="cb94-5"><a href="#cb94-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">max_age  =</span> <span class="fu">max</span>(age),</span>
+<span id="cb94-6"><a href="#cb94-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">num_cases =</span> <span class="fu">sum</span>(status)</span>
+<span id="cb94-7"><a href="#cb94-7" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 3
   mean_age max_age num_cases
