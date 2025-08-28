@@ -242,29 +242,105 @@ library(readxl)
 ## Load Data
 
 ```{r}
+ebola_sl <- read_excel('Ebola_Sierra Leone.xlsx')
+ebola_sl
 
-read_excel('Ebola_Sierra Leone.xlsx')
 ```
 
 ## Key Functions
 
-summary()
+### summary()
 
-head()
+```{r}
+summary(ebola_sl)
+```
 
-tail()
+### Pipe Function %\>%
 
-select()
+```{r}
+ebola_sl %>% summary() 
+```
 
-filter()
+### head()
 
-arrange()
+```{r}
+ebola_sl %>% head(n = 20)
+```
+
+### tail()
+
+```{r}
+ebola_sl %>% tail()
+```
+
+### select()
+
+Select is the function used for selecting columns
+
+```{r}
+ebola_demographics <- ebola_sl %>% select(age, sex, status)
+ebola_demographics
+```
+
+### filter()
+
+Filter is used to select the rows to keep or filter out rows
+
+```{r}
+ebola_sl %>% filter(age < 18 )
+```
+
+```{r}
+ebola_sl %>% 
+    filter(age < 18 & district == "Bo" )
+```
+
+The pipe function is used to chain operations. The output of the previous operation is fed in as the first argument in the following function using the pipe %\>%.
+
+```{r}
+ebola_sl %>% 
+    filter(age < 18 & district == "Bo" ) %>% 
+    select(age, sex, status, district)
+```
+
+### arrange()
+
+```{r}
+ebola_sl %>% 
+    filter(age < 18 & district == "Bo" ) %>% 
+    select(age, sex, status, district) %>% 
+    arrange(age)
+```
+
+```{r}
+ebola_sl %>% 
+    filter(age < 18 & district == "Bo" ) %>% 
+    select(age, sex, status, district) %>% 
+    arrange(desc(age))
+```
+
+```{r}
+ebola_sl %>% 
+    filter(age < 18 & district == "Bo" ) %>% 
+    select(age, sex, status, district) %>% 
+    arrange(age %>% desc())
+```
 
 mutate()
 
 factor()
 
-summarise()
+### summarise()
+
+```{r}
+ebola_sl %>% 
+    drop_na() %>% 
+    summarise(
+    mean_age = mean(age),
+    max_age  = max(age),
+    num_cases = sum(status)
+    )
+```
 
 group_by()
 
