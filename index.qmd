@@ -343,6 +343,7 @@ ebola_sl %>%
 
 ```{r}
 ebola_sl %>% 
+    select(sex, status, age) %>% 
     mutate(
         sex = factor(sex, 
                      levels = c(1,2),
