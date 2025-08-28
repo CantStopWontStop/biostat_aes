@@ -754,50 +754,50 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="factor">factor()</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a>ebola_sl <span class="sc">%&gt;%</span> </span>
-<span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
-<span id="cb92-3"><a href="#cb92-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">sex =</span> <span class="fu">factor</span>(sex, </span>
-<span id="cb92-4"><a href="#cb92-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>),</span>
-<span id="cb92-5"><a href="#cb92-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"female"</span>, <span class="st">"male"</span>)),</span>
-<span id="cb92-6"><a href="#cb92-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">status =</span> <span class="fu">factor</span>(status,</span>
-<span id="cb92-7"><a href="#cb92-7" aria-hidden="true" tabindex="-1"></a>                        <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),</span>
-<span id="cb92-8"><a href="#cb92-8" aria-hidden="true" tabindex="-1"></a>                        <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"positive"</span>, <span class="st">"negative"</span>) ),       <span class="co"># Convert to factor</span></span>
-<span id="cb92-9"><a href="#cb92-9" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Create 'age_group' based on the 'age' column</span></span>
-<span id="cb92-10"><a href="#cb92-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">age_group =</span> <span class="fu">case_when</span>(</span>
-<span id="cb92-11"><a href="#cb92-11" aria-hidden="true" tabindex="-1"></a>            age <span class="sc">&lt;</span> <span class="dv">5</span> <span class="sc">~</span> <span class="st">"0-4"</span>, </span>
-<span id="cb92-12"><a href="#cb92-12" aria-hidden="true" tabindex="-1"></a>            age <span class="sc">&gt;=</span> <span class="dv">5</span> <span class="sc">&amp;</span> age <span class="sc">&lt;</span> <span class="dv">15</span> <span class="sc">~</span> <span class="st">"5-14"</span>,</span>
-<span id="cb92-13"><a href="#cb92-13" aria-hidden="true" tabindex="-1"></a>            age <span class="sc">&gt;=</span> <span class="dv">15</span> <span class="sc">&amp;</span> age <span class="sc">&lt;</span> <span class="dv">25</span> <span class="sc">~</span> <span class="st">"15-24"</span>,</span>
-<span id="cb92-14"><a href="#cb92-14" aria-hidden="true" tabindex="-1"></a>            age <span class="sc">&gt;=</span> <span class="dv">25</span> <span class="sc">&amp;</span> age <span class="sc">&lt;</span> <span class="dv">45</span> <span class="sc">~</span> <span class="st">"25-44"</span>,</span>
-<span id="cb92-15"><a href="#cb92-15" aria-hidden="true" tabindex="-1"></a>            age <span class="sc">&gt;=</span> <span class="dv">45</span> <span class="sc">&amp;</span> age <span class="sc">&lt;</span> <span class="dv">65</span> <span class="sc">~</span> <span class="st">"45-64"</span>,</span>
-<span id="cb92-16"><a href="#cb92-16" aria-hidden="true" tabindex="-1"></a>            age <span class="sc">&gt;=</span> <span class="dv">65</span> <span class="sc">~</span> <span class="st">"65+"</span>,</span>
-<span id="cb92-17"><a href="#cb92-17" aria-hidden="true" tabindex="-1"></a>            <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span>  <span class="co"># Handle missing values by assigning NA</span></span>
-<span id="cb92-18"><a href="#cb92-18" aria-hidden="true" tabindex="-1"></a>        ),</span>
-<span id="cb92-19"><a href="#cb92-19" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Convert 'age_group' to factor with specified order</span></span>
-<span id="cb92-20"><a href="#cb92-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">age_group =</span> <span class="fu">factor</span>(age_group, </span>
-<span id="cb92-21"><a href="#cb92-21" aria-hidden="true" tabindex="-1"></a>                           <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"0-4"</span>, </span>
-<span id="cb92-22"><a href="#cb92-22" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"5-14"</span>, </span>
-<span id="cb92-23"><a href="#cb92-23" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"15-24"</span>, </span>
-<span id="cb92-24"><a href="#cb92-24" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"25-44"</span>, </span>
-<span id="cb92-25"><a href="#cb92-25" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"45-64"</span>, </span>
-<span id="cb92-26"><a href="#cb92-26" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"65+"</span>)</span>
-<span id="cb92-27"><a href="#cb92-27" aria-hidden="true" tabindex="-1"></a>                           )</span>
-<span id="cb92-28"><a href="#cb92-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb92-29"><a href="#cb92-29" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(sex, status, age) <span class="sc">%&gt;%</span> </span>
+<span id="cb92-3"><a href="#cb92-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb92-4"><a href="#cb92-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">sex =</span> <span class="fu">factor</span>(sex, </span>
+<span id="cb92-5"><a href="#cb92-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>),</span>
+<span id="cb92-6"><a href="#cb92-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"female"</span>, <span class="st">"male"</span>)),</span>
+<span id="cb92-7"><a href="#cb92-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">status =</span> <span class="fu">factor</span>(status,</span>
+<span id="cb92-8"><a href="#cb92-8" aria-hidden="true" tabindex="-1"></a>                        <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),</span>
+<span id="cb92-9"><a href="#cb92-9" aria-hidden="true" tabindex="-1"></a>                        <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"positive"</span>, <span class="st">"negative"</span>) ),       <span class="co"># Convert to factor</span></span>
+<span id="cb92-10"><a href="#cb92-10" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Create 'age_group' based on the 'age' column</span></span>
+<span id="cb92-11"><a href="#cb92-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">age_group =</span> <span class="fu">case_when</span>(</span>
+<span id="cb92-12"><a href="#cb92-12" aria-hidden="true" tabindex="-1"></a>            age <span class="sc">&lt;</span> <span class="dv">5</span> <span class="sc">~</span> <span class="st">"0-4"</span>, </span>
+<span id="cb92-13"><a href="#cb92-13" aria-hidden="true" tabindex="-1"></a>            age <span class="sc">&gt;=</span> <span class="dv">5</span> <span class="sc">&amp;</span> age <span class="sc">&lt;</span> <span class="dv">15</span> <span class="sc">~</span> <span class="st">"5-14"</span>,</span>
+<span id="cb92-14"><a href="#cb92-14" aria-hidden="true" tabindex="-1"></a>            age <span class="sc">&gt;=</span> <span class="dv">15</span> <span class="sc">&amp;</span> age <span class="sc">&lt;</span> <span class="dv">25</span> <span class="sc">~</span> <span class="st">"15-24"</span>,</span>
+<span id="cb92-15"><a href="#cb92-15" aria-hidden="true" tabindex="-1"></a>            age <span class="sc">&gt;=</span> <span class="dv">25</span> <span class="sc">&amp;</span> age <span class="sc">&lt;</span> <span class="dv">45</span> <span class="sc">~</span> <span class="st">"25-44"</span>,</span>
+<span id="cb92-16"><a href="#cb92-16" aria-hidden="true" tabindex="-1"></a>            age <span class="sc">&gt;=</span> <span class="dv">45</span> <span class="sc">&amp;</span> age <span class="sc">&lt;</span> <span class="dv">65</span> <span class="sc">~</span> <span class="st">"45-64"</span>,</span>
+<span id="cb92-17"><a href="#cb92-17" aria-hidden="true" tabindex="-1"></a>            age <span class="sc">&gt;=</span> <span class="dv">65</span> <span class="sc">~</span> <span class="st">"65+"</span>,</span>
+<span id="cb92-18"><a href="#cb92-18" aria-hidden="true" tabindex="-1"></a>            <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span>  <span class="co"># Handle missing values by assigning NA</span></span>
+<span id="cb92-19"><a href="#cb92-19" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb92-20"><a href="#cb92-20" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Convert 'age_group' to factor with specified order</span></span>
+<span id="cb92-21"><a href="#cb92-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">age_group =</span> <span class="fu">factor</span>(age_group, </span>
+<span id="cb92-22"><a href="#cb92-22" aria-hidden="true" tabindex="-1"></a>                           <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"0-4"</span>, </span>
+<span id="cb92-23"><a href="#cb92-23" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"5-14"</span>, </span>
+<span id="cb92-24"><a href="#cb92-24" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"15-24"</span>, </span>
+<span id="cb92-25"><a href="#cb92-25" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"25-44"</span>, </span>
+<span id="cb92-26"><a href="#cb92-26" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"45-64"</span>, </span>
+<span id="cb92-27"><a href="#cb92-27" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"65+"</span>)</span>
+<span id="cb92-28"><a href="#cb92-28" aria-hidden="true" tabindex="-1"></a>                           )</span>
+<span id="cb92-29"><a href="#cb92-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb92-30"><a href="#cb92-30" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 11,903 × 9
-      id   age sex    status   date_of_onset       date_of_sample      district
-   &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt;  &lt;fct&gt;    &lt;dttm&gt;              &lt;dttm&gt;              &lt;chr&gt;   
- 1     1    20 female positive 2014-05-18 00:00:00 2014-05-23 00:00:00 Kailahun
- 2     2    42 female positive 2014-05-20 00:00:00 2014-05-25 00:00:00 Kailahun
- 3     3    45 female positive 2014-05-20 00:00:00 2014-05-25 00:00:00 Kailahun
- 4     4    15 female positive 2014-05-21 00:00:00 2014-05-26 00:00:00 Kailahun
- 5     5    19 female positive 2014-05-21 00:00:00 2014-05-26 00:00:00 Kailahun
- 6     6    55 female positive 2014-05-21 00:00:00 2014-05-26 00:00:00 Kailahun
- 7     7    50 female positive 2014-05-21 00:00:00 2014-05-26 00:00:00 Kailahun
- 8     8     8 female positive 2014-05-22 00:00:00 2014-05-27 00:00:00 Kailahun
- 9     9    54 female positive 2014-05-22 00:00:00 2014-05-27 00:00:00 Kailahun
-10    10    57 female positive 2014-05-22 00:00:00 2014-05-27 00:00:00 Kailahun
-# ℹ 11,893 more rows
-# ℹ 2 more variables: chiefdom &lt;chr&gt;, age_group &lt;fct&gt;</code></pre>
+<pre><code># A tibble: 11,903 × 4
+   sex    status     age age_group
+   &lt;fct&gt;  &lt;fct&gt;    &lt;dbl&gt; &lt;fct&gt;    
+ 1 female positive    20 15-24    
+ 2 female positive    42 25-44    
+ 3 female positive    45 45-64    
+ 4 female positive    15 15-24    
+ 5 female positive    19 15-24    
+ 6 female positive    55 45-64    
+ 7 female positive    50 45-64    
+ 8 female positive     8 5-14     
+ 9 female positive    54 45-64    
+10 female positive    57 45-64    
+# ℹ 11,893 more rows</code></pre>
 </div>
 </div>
 </section>
