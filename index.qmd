@@ -491,9 +491,9 @@ ggplot(ebola_sl, aes(x = status,
 #| echo: false
 ebola_sl_cleaned %>% 
     drop_na() %>% 
-    ggplot(aes(x = status,
-            group = sex,
-            fill = sex)) +
+    ggplot(aes(x = ebola_status,
+            group = gender,
+            fill = gender)) +
   geom_bar(position = "dodge") +
   labs(title = "Health Status by Sex",
        x = "Health Status",
@@ -520,6 +520,8 @@ ebola_sl_cleaned %>%
 ###  Geom_boxplot()
 
 ```{r}
+#| echo: false
+
 ebola_sl_cleaned %>% 
     drop_na() %>% 
     ggplot(
@@ -532,6 +534,8 @@ ebola_sl_cleaned %>%
 ```
 
 ```{r}
+#| echo: false
+
 ebola_sl_cleaned %>% 
     drop_na() %>% 
     ggplot(
