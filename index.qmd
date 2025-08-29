@@ -231,6 +231,7 @@ youngest
 ```{r}
 library(tidyverse)
 library(readxl)
+library(DT)
 ```
 
 ## Practice Data
@@ -342,8 +343,8 @@ ebola_sl %>%
 ### factor()
 
 ```{r}
-ebola_sl %>% 
-    select(sex, status, age) %>% 
+ebola_sl_cleaned <- ebola_sl %>% 
+    select(sex, status, date_of_onset, district, age) %>% 
     mutate(
         sex = factor(sex, 
                      levels = c(1,2),
@@ -372,9 +373,40 @@ ebola_sl %>%
                            )
 
     )
+
+ebola_sl_cleaned %>% 
+    datatable()
 ```
 
 ### summarise()
+
+```{r}
+ebola_sl %>% 
+    summarise(
+    mean_age = mean(age),
+    max_age  = max(age),
+    num_cases = sum(status)
+    )
+```
+
+### drop_na()
+
+Drop_na() is used to remove missing data. It can be done for the entire data frame or for specific columns.
+
+##### Specific Columns
+
+```{r}
+ebola_sl %>% 
+    drop_na(age) %>% 
+    summarise(
+    mean_age = mean(age),
+    max_age  = max(age),
+    num_cases = sum(status)
+    )
+ 
+```
+
+##### All Columns
 
 ```{r}
 ebola_sl %>% 
@@ -386,7 +418,35 @@ ebola_sl %>%
     )
 ```
 
-group_by()
+### group_by()
+
+Group by is used to make calculations/aggregations or changes by a group.
+
+```{r}
+ebola_sl_cleaned %>% 
+    drop_na() %>% 
+    group_by(sex) %>% 
+    summarise(
+        mean_age = mean(age),
+        max_age  = max(age),
+        min_sample_date = min(date_of_onset),
+        max_sample_date = max(date_of_onset)
+    )
+```
+
+```{r}
+ebola_sl_cleaned %>% 
+    drop_na() %>% 
+    group_by(district) %>% 
+    summarise(
+        mean_age = mean(age),
+        min_age  = min(age),
+        max_age  = max(age),
+        min_sample_date = min(date_of_onset),
+        max_sample_date = max(date_of_onset)
+    ) %>% 
+    datatable()
+```
 
 ## Plotting
 
