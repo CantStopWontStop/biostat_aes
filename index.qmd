@@ -25,6 +25,12 @@ editor: visual
 
 [RStudio](https://posit.co/downloads/){target="'_blank'"}
 
+```{r}
+library(tidyverse)
+library(readxl)
+library(DT)
+```
+
 ## Introduction
 
 ### RStudio
@@ -207,6 +213,27 @@ superstar_data <- data.frame(superstars, ages, world_cup_winner)
 superstar_data
 ```
 
+```{r}
+superstar_data
+```
+
+```{r}
+superstar_data %>% 
+    mutate(year_of_birth = 2025 - ages,
+           world_cup_win_yn = if_else(world_cup_winner == TRUE, "Yes", "No"))
+```
+
+```{r}
+superstar_data %>% 
+    mutate(year_of_birth = 2025 - ages,
+           world_cup_win_yn = if_else(world_cup_winner, "Yes", "No"))
+```
+
+```{r}
+superstar_data %>% 
+    mutate(superstars = if_else(superstars == "Salah", "Egyptian King", superstars))
+```
+
 #### Functions
 
 ```{r}
@@ -225,14 +252,6 @@ youngest
 ```
 
 # DAY 2
-
-## Load Packages
-
-```{r}
-library(tidyverse)
-library(readxl)
-library(DT)
-```
 
 ## Practice Data
 
@@ -336,15 +355,28 @@ ebola_sl %>%
     mutate(day_of_sample = as.Date(date_of_sample),
           day_of_onset = as.Date(date_of_onset), 
           timeframe = day_of_sample - day_of_onset) %>%
-    select(day_of_sample, day_of_onset, timeframe)
+    select(day_of_sample, day_of_onset, timeframe, date_of_onset, date_of_sample)
     
+```
+
+```{r}
+ebola_sl %>% 
+    mutate( timeframe = date_of_sample - date_of_onset) %>% 
+    rename(time_frame = timeframe)
+```
+
+```{r}
+ebola_sl %>% 
+    mutate(date_of_sample = as.Date(date_of_sample),
+          date_of_onset = as.Date(date_of_onset), 
+          timeframe = date_of_sample - date_of_onset)
 ```
 
 ### factor()
 
 ```{r}
 ebola_sl_cleaned <- ebola_sl %>% 
-    select(sex, status, date_of_onset, district, age) %>% 
+    select(sex, status, date_of_onset,date_of_sample, district, age) %>% 
     mutate(
         gender = factor(sex, 
                      levels = c(1,2),
@@ -472,6 +504,27 @@ ebola_sl_cleaned %>%
 
 #### geom\_\*()
 
+```{r}
+ggplot(ebola_sl_cleaned, 
+       aes(x = status)) +
+    geom_bar()
+```
+
+```{r}
+ggplot(ebola_sl_cleaned, aes(x =ebola_status)) +
+    geom_bar() 
+```
+
+```{r}
+ggplot(ebola_sl_cleaned, aes(x =ebola_status, fill = "red")) +
+    geom_bar() 
+```
+
+```{r}
+ggplot(ebola_sl_cleaned, aes(x =ebola_status, fill = ebola_status,)) +
+    geom_bar() 
+```
+
 ### Geom_bar()
 
 ```{r}
@@ -488,7 +541,7 @@ ggplot(ebola_sl, aes(x = status,
 ```
 
 ```{r}
-#| echo: false
+
 ebola_sl_cleaned %>% 
     drop_na() %>% 
     ggplot(aes(x = ebola_status,
@@ -504,23 +557,21 @@ ebola_sl_cleaned %>%
 ### Geom_histogram()
 
 ```{r}
-#| echo: false
 ebola_sl_cleaned %>% 
     drop_na() %>% 
-    ggplot( aes(x = age)) +
-    geom_histogram(binwidth = 5, 
-                 fill = "skyblue", 
-                 color = "black") +
-    labs(title = "Age Distribution",
-       x = "Age",
-       y = "Frequency") +
-    theme_minimal()
+    ggplot(aes(x = age )) +
+    geom_histogram(bins = 20, colour = "blue",fill = "red") +
+    labs(title = "Distribution of Age",
+          x ="Age",
+          y = "Frequency") +
+    theme_light()
+
+
 ```
 
 ###  Geom_boxplot()
 
 ```{r}
-#| echo: false
 
 ebola_sl_cleaned %>% 
     drop_na() %>% 
@@ -534,7 +585,6 @@ ebola_sl_cleaned %>%
 ```
 
 ```{r}
-#| echo: false
 
 ebola_sl_cleaned %>% 
     drop_na() %>% 
@@ -548,3 +598,82 @@ ebola_sl_cleaned %>%
 ```
 
 ### 
+
+#### Setting Color Uniformly
+
+```{r}
+
+ebola_sl_cleaned %>% 
+    drop_na(sex) %>% 
+    ggplot(aes(y = age, x = sex)) +
+    geom_boxplot(fill = "orange")
+```
+
+#### Mapping Colors to a Variable
+
+```{r}
+
+ebola_sl_cleaned %>% 
+    drop_na(sex) %>% 
+    ggplot(aes(y = age, x = sex)) +
+    geom_boxplot(aes(fill = sex))
+```
+
+#### Scaling to Customize Colors
+
+```{r}
+
+
+ebola_sl_cleaned %>% 
+    drop_na() %>% 
+    ggplot(aes(y = age, x = sex, fill = sex)) +
+    geom_boxplot() +
+    scale_fill_manual(values = c("pink", "blue")) +
+    facet_wrap(~district, ncol = 2)
+```
+
+### Pie Chart
+
+```{r}
+
+sex_data <- ebola_sl_cleaned %>% 
+    group_by(sex) %>% 
+    summarise(count = n()) %>% 
+    mutate(prop = count / sum(count))
+
+sex_data
+```
+
+```{r}
+sex_data %>% 
+    ggplot(aes(x= "", y= prop, fill = sex)) +
+    geom_bar(stat = 'identity') +
+    coord_polar("y") +
+    theme_void() 
+```
+
+### Scatter Plots
+
+```{r}
+
+ebola_sl_cleaned %>% 
+    drop_na() %>% 
+    filter(age >= 65) %>% 
+    ggplot(aes(x = date_of_onset, 
+               y = date_of_sample, 
+               colour = age)) +
+    geom_point(aes(size = age),
+               alpha = .2) 
+```
+
+```{r}
+
+ebola_sl_cleaned %>% 
+    drop_na() %>% 
+    filter(age >= 65) %>% 
+    ggplot(aes(x = date_of_onset, 
+               y = date_of_sample, 
+               colour = age)) +
+    geom_point(alpha = .2) +
+    facet_wrap(~sex)
+```
