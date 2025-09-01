@@ -23,6 +23,10 @@ library(tidyverse)
 library(readxl)
 ```
 
+<https://github.com/CantStopWontStop/biostat_aes/blob/master/Sample.xlsx>
+
+<https://github.com/CantStopWontStop/biostat_aes/blob/master/Drug%20trial.xlsx>
+
 ```{r}
 StOB <- read_excel('Sample.xlsx')
 StOB
