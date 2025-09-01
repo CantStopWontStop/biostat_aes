@@ -569,7 +569,7 @@ ebola_sl_cleaned %>%
 
 ```
 
-###  Geom_boxplot()
+### Geom_boxplot()
 
 ```{r}
 
@@ -676,4 +676,151 @@ ebola_sl_cleaned %>%
                colour = age)) +
     geom_point(alpha = .2) +
     facet_wrap(~sex)
+```
+
+# Sunday Practice Session
+```{r}
+lbw_data <- read_excel('Low birth weight.xlsx')
+lbw_data
+```
+
+```{r}
+summary(lbw_data)
+```
+
+```{r}
+lbw_data <- lbw_data %>% 
+  rename(mother_weight = lwt,
+         preterm_labor = ptl,
+         hypertension = ht,
+         uterine_irritability = ui,
+         first_trimester_vist = ftv,
+         birth_weight = bwt)
+
+lbw_data
+```
+
+```{r}
+lbw_data_new <- lbw_data %>% 
+  mutate(age_group = case_when(
+                age < 18 ~ "Underage",
+                age >= 18 & age < 35 ~ "Young Adult",
+                age >= 35 ~ "Adult",
+                TRUE ~ NA_character_
+                ),
+         smoke_yn = if_else(smoke == 1, TRUE, FALSE )
+    
+  ) %>% 
+  mutate(age_group = factor(age_group, 
+                            levels = c("Underage",
+                                       "Young Adult",
+                                       "Adult")
+                            )
+         )
+
+lbw_data_new
+```
+
+```{r}
+
+lbw_data_new %>% 
+  summarise(
+    mean_age = mean(age),
+    mean_lwt = mean(mother_weight),
+    mean_bwt = mean(birth_weight),
+    min_bwt = min(birth_weight), 
+    max_bwt =  max(birth_weight))
+```
+
+```{r}
+lbw_data_new %>%
+  group_by(age_group) %>% 
+  summarise(
+    mean_age = mean(age) %>% round(0),
+    mean_lwt = round(mean(mother_weight), 1),
+    mean_bwt = mean(birth_weight),
+    min_bwt = min(birth_weight), 
+    max_bwt =  max(birth_weight))
+```
+
+```{r}
+
+lbw_data_new %>%
+  group_by(age_group, smoke_yn) %>% 
+  summarise(
+    mean_age = mean(age) %>% round(0),
+    mean_lwt = round(mean(mother_weight), 1),
+    mean_bwt = mean(birth_weight),
+    min_bwt = min(birth_weight), 
+    max_bwt =  max(birth_weight))
+```
+
+```{r}
+lbw_data %>% 
+  arrange(birth_weight %>% desc()) %>% 
+  head(10) %>% 
+  select(age, birth_weight)
+```
+
+```{r}
+lbw_data_new %>% 
+  ggplot(aes(x = age_group, fill = age_group)) +
+    geom_bar() +
+ # geom_label(aes(label = "count", y = 'count')) +
+    labs(title = "Count by Age Group",
+         x = "Age Group",
+         y = "Frequency") +
+    theme_minimal()
+```
+
+```{r}
+lbw_data_new %>% 
+  ggplot(aes(x = birth_weight)) +
+  geom_histogram(fill = 'purple', 
+                 color = "black", 
+                 bins = 10) +
+  theme_bw()
+
+lbw_data_new %>% 
+  ggplot(aes(x = birth_weight,)) +
+  geom_histogram( fill= 'darkgreen', 
+                  color = "black", 
+                  bins = 20) +
+  theme_classic()
+```
+
+```{r}
+lbw_data_new %>% 
+  ggplot(aes(x = age_group, 
+             y = mother_weight, 
+             fill = age_group)) +
+  geom_boxplot()
+
+```
+
+```{r}
+lbw_data_new %>% 
+  ggplot(aes(x = age, y = mother_weight)) +
+  geom_point(color = "green")
+  
+```
+
+```{r}
+lbw_data_new %>% 
+  ggplot(aes(x = mother_weight, y = birth_weight)) +
+  geom_point()
+```
+
+```{r}
+lbw_data_new %>% 
+  ggplot(aes(x = age, y = mother_weight, color = mother_weight)) +
+  geom_point()
+```
+
+```{r}
+lbw_data_new %>% 
+  ggplot(aes(x = age, 
+             y = mother_weight, 
+             color = age_group)) +
+  geom_point()
 ```
