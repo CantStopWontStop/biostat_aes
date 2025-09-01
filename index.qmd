@@ -15,15 +15,23 @@ execute:
 editor: visual
 ---
 
-# DAY 1
+# Session Pages
 
-## Set Up
+[cantstopwontstop.github.io/biostat_aes](https://cantstopwontstop.github.io/biostat_aes/)
 
-### [cantstopwontstop.github.io/biostat_aes](https://cantstopwontstop.github.io/biostat_aes/)
+[Biostats with R](https://cantstopwontstop.github.io/biostat_aes/biostats_with_R.html)
+
+# Resources
 
 [R - Cran](https://cran.r-project.org/){target="'_blank'"}
 
 [RStudio](https://posit.co/downloads/){target="'_blank'"}
+
+[Statistical Inference via Data Science](https://moderndive.com/)
+
+[ggplot2: Elegant Graphics for Data Analysis](https://ggplot2-book.org/)
+
+# DAY 1
 
 ```{r}
 library(tidyverse)
@@ -53,7 +61,8 @@ library(DT)
 
 #### Operators
 
-##### Arithmetic Operators
+::: panel-tabset
+## Arithmetic Operators
 
 Addition operator (+)
 
@@ -97,7 +106,7 @@ Modulo operator (%%)
 10 %% 4
 ```
 
-##### Relational Operators
+## Relational Operators
 
 Less than (\<)
 
@@ -141,7 +150,7 @@ Not equal to (!=)
 10 != 8
 ```
 
-##### Logical Operators
+## Logical Operators
 
 AND operator (&)
 
@@ -165,6 +174,7 @@ NOT operator (!)
 !FALSE
 !TRUE
 ```
+:::
 
 #### Data Types
 
@@ -679,6 +689,7 @@ ebola_sl_cleaned %>%
 ```
 
 # Sunday Practice Session
+
 ```{r}
 lbw_data <- read_excel('Low birth weight.xlsx')
 lbw_data

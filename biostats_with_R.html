@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Statistics Lesson</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="biostats_with_R_files/libs/clipboard/clipboard.min.js"></script>
+<script src="biostats_with_R_files/libs/quarto-html/quarto.js"></script>
+<script src="biostats_with_R_files/libs/quarto-html/popper.min.js"></script>
+<script src="biostats_with_R_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="biostats_with_R_files/libs/quarto-html/anchor.min.js"></script>
+<link href="biostats_with_R_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="biostats_with_R_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="biostats_with_R_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="biostats_with_R_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="biostats_with_R_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Statistics Lesson</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p><a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/00Index.html">The R Stats Package</a></p>
+<section id="set-up" class="level1">
+<h1>Set up</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>StOB <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">'Sample.xlsx'</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>StOB</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 95 × 16
+       UID   Age   BMI Smoker   CVD Outcome Diabetic   DBP Education Glucose
+     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+ 1 4343801    60  24.7      0     0       0        0  79           1      78
+ 2 8699070    49  24.7      0     1       1        0  82           2      60
+ 3 5169197    55  28.9      0     1       1        0  80           4      68
+ 4 4111268    61  26.8      0     0       1        0  74           2      91
+ 5 9062570    52  23.1      1     0       0        0  70           2      61
+ 6 6793529    50  20.7      1     0       0        0  72.5         2      77
+ 7  621362    52  24.6      0     0       1        1  89           3      73
+ 8 9059122    55  20.7      0     0       1        0  87           4      71
+ 9 5081457    42  23.7      1     0       0        0  72           3     100
+10 7796482    41  27.8      1     0       0        0 100           2      71
+# ℹ 85 more rows
+# ℹ 6 more variables: Heart &lt;dbl&gt;, Hypertension &lt;dbl&gt;, Sex &lt;dbl&gt;, Stroke &lt;dbl&gt;,
+#   SBP &lt;dbl&gt;, Cholestrol &lt;dbl&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="t-tests" class="level1">
+<h1>t-tests</h1>
+<section id="one-sample" class="level2">
+<h2 class="anchored" data-anchor-id="one-sample">One-sample</h2>
+<p>Assuming as a researcher, you want to determine if the mean BMI of our [<strong>Sample]</strong> dataset is significantly different from that of a neighbouring population with mean BMI of 25kg/m2.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>ttwt<span class="ot">&lt;-</span><span class="fu">t.test</span>(StOB<span class="sc">$</span>BMI, <span class="at">mu=</span><span class="dv">25</span>,</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(ttwt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    One Sample t-test
+
+data:  StOB$BMI
+t = 2.0021, df = 94, p-value = 0.04816
+alternative hypothesis: true mean is not equal to 25
+95 percent confidence interval:
+ 25.00560 26.34956
+sample estimates:
+mean of x 
+ 25.67758 </code></pre>
+</div>
+</div>
+<p>From the one-sample t-test results, the computed mean from the sample dataset is 25.7kg/m2 which is tested against the hypothetical value of 25kg/m2. R generates output for our null hypothesis of equivalence, we make use of the two-tailed alternate hypothesis of mean!=25 with its corresponding p-value 0.02857 which, if we are to be testing at a 5% significance level, we will reject our null statement.&nbsp;</p>
+</section>
+<section id="two-sample" class="level2">
+<h2 class="anchored" data-anchor-id="two-sample">Two-sample</h2>
+<p>With our previous example on BMI, now suppose we want to test if the BMI of our [<strong>Sample]</strong> dataset is different between males and females at 95% significance level, assuming the variance of BMI does not differ significantly between the two groups.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ttwt1<span class="ot">&lt;-</span><span class="fu">t.test</span>(StOB<span class="sc">$</span>BMI<span class="sc">~</span>StOB<span class="sc">$</span>Sex, <span class="at">var.equal =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(ttwt1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Two Sample t-test
+
+data:  StOB$BMI by StOB$Sex
+t = -1.1716, df = 93, p-value = 0.2444
+alternative hypothesis: true difference in means between group 1 and group 2 is not equal to 0
+95 percent confidence interval:
+ -2.1359063  0.5507955
+sample estimates:
+mean in group 1 mean in group 2 
+       25.26044        26.05300 </code></pre>
+</div>
+</div>
+<p>The&nbsp;p-value&nbsp;of the test is 0.2925, which is greater than the significance level alpha = 0.05. We can conclude that the average BMI is not significantly different between males and females.</p>
+</section>
+<section id="paired" class="level2">
+<h2 class="anchored" data-anchor-id="paired">Paired</h2>
+<p>A paired t-test is a statistical procedure that tests whether the mean difference between two related groups is significantly different from zero. The values used in this test must be in pairs in two variables/columns. Only complete pairs are used in the analysis.&nbsp;</p>
+<p>This can be done by using the same t.test(before , after , data = , paired = TRUE)but paired must be set to TRUE and then alternative can be added depending on the test.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># t.test(StOBDt$SBP1, StOBDt$SBP2, paired = TRUE)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="analysis-of-variance-anova" class="level1">
+<h1>Analysis of variance (ANOVA)</h1>
+<section id="one-way-anova" class="level2">
+<h2 class="anchored" data-anchor-id="one-way-anova">One-way ANOVA</h2>
+<p>One-way ANOVA is a statistical method to test whether the means of two or more groups are equal. This can be done by using the oneway.test() or aov()function&nbsp;</p>
+<p><strong>Example</strong></p>
+<p>From the StOB dataset, assuming we want to compare the mean systolic blood pressure across categories of education at 5% significance level, we use the following:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>one.way <span class="ot">&lt;-</span> <span class="fu">aov</span>(SBP <span class="sc">~</span> Education,<span class="at">data =</span> StOB)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(one.way)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            Df Sum Sq Mean Sq F value Pr(&gt;F)
+Education    1    291   290.7   0.564  0.455
+Residuals   91  46898   515.4               
+2 observations deleted due to missingness</code></pre>
+</div>
+</div>
+<p>From the output above, our focus is the F-statistic p-value of 0.535 which is not significant at 5% and so we fail to reject the null hypothesis of no differences in mean systolic blood pressures across education.</p>
+</section>
+<section id="post-hoc-tests-for-one-way-anova" class="level2">
+<h2 class="anchored" data-anchor-id="post-hoc-tests-for-one-way-anova">Post hoc tests for One-way ANOVA</h2>
+<p>The one-way ANOVA does not show exactly where differences in means are so post hoc tests may be carried out to investigate those differences. R provides post hoc tests such as <strong>Bonferroni</strong>, <strong>Scheffe</strong>, or <strong>Sidak</strong>, Tukeybut we will look at the <strong>Bonferroni</strong> test which is one of the more commonly used ones.&nbsp;</p>
+<p>From our previous example, the function TukeyHSD()can be used for Tukey or pairwise.t.test(df$y, df$x, p.adj=‘bonferroni’)can be used for Bonferroni method.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairwise.t.test</span>(StOB<span class="sc">$</span>BMI, StOB<span class="sc">$</span>Education, <span class="at">p.adj=</span><span class="st">'bonferroni'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Pairwise comparisons using t tests with pooled SD 
+
+data:  StOB$BMI and StOB$Education 
+
+  1    2    3   
+2 0.61 -    -   
+3 1.00 1.00 -   
+4 1.00 1.00 1.00
+
+P value adjustment method: bonferroni </code></pre>
+</div>
+</div>
+</section>
+<section id="two-way-anova" class="level2">
+<h2 class="anchored" data-anchor-id="two-way-anova">Two-way ANOVA</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>drug_trial <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">'Drug trial.xlsx'</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>drug_trial</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 60 × 7
+     PID  Drug Disease  SBP1  SBP2  DBP1  DBP2
+   &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1     1     1       1  152.  109.  95.7  67.7
+ 2     2     1       1  148.  113.  93.9  69.8
+ 3     3     1       1  140.  121.  87.4  75.5
+ 4     4     1       1  152.  109.  95.9  67.2
+ 5     5     1       1  137.  124.  85.8  77.7
+ 6     6     1       1  141.  120.  89.0  73.8
+ 7     7     1       2  147.  114.  92.9  70.6
+ 8     8     1       2  144.  117.  90.3  72.4
+ 9     9     1       2  147.  114.  92.9  70.3
+10    10     1       2  141.  120.  88.1  74.1
+# ℹ 50 more rows</code></pre>
+</div>
+</div>
+<p>We will use the [<strong>Drug trial]</strong> dataset. Suppose as a researcher you want to investigate if there are differences in mean systolic blood pressure after the intervention, across categories of the drug used and the type of disease suffered by the patient. To carry out this investigation in R using the two-way ANOVA, the syntax and output are as follows: aov(y ~ x1 + x2, data = data frame)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>two.way <span class="ot">&lt;-</span> <span class="fu">aov</span>(SBP2 <span class="sc">~</span> Drug <span class="sc">+</span> Disease, <span class="at">data =</span> drug_trial)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(two.way)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+Drug         1  530.2   530.2   17.45 0.000102 ***
+Disease      1  102.7   102.7    3.38 0.071192 .  
+Residuals   57 1731.5    30.4                     
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>From the output there is a significant association between systolic blood pressure and drug type (p&lt;0.001) but not with disease (p=0.069).</p>
+</section>
+</section>
+<section id="linear-regression-and-correlation" class="level1">
+<h1>Linear regression and Correlation</h1>
+<section id="scatter-plots-and-regression-lines" class="level2">
+<h2 class="anchored" data-anchor-id="scatter-plots-and-regression-lines">Scatter plots and regression lines</h2>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="biostats_with_R_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="pearson-correlation" class="level2">
+<h2 class="anchored" data-anchor-id="pearson-correlation">Pearson correlation</h2>
+<p>The Pearson correlation is used to show the strength of a linear relationship between continuous variables. To do a Pearson correlation analysis in R, here are the steps:</p>
+<p><strong>Pairwise</strong></p>
+<p>The correlation coefficient can be computed using the functions&nbsp;cor()orcor.test() but you can see that the correlation method is not specified here. So this code can be extended to include that cor(dfx2, method = c(“pearson”). Where dfx2 represents the two variables to be compared. We can simply compute the correlation for two variables Age and BMI as shown below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(StOB<span class="sc">$</span>Age, StOB<span class="sc">$</span>BMI, <span class="at">method =</span> <span class="st">"pearson"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1650147</code></pre>
+</div>
+</div>
+<p><strong>Example</strong></p>
+<p>Using the [<strong>Sample]</strong> dataset, to generate a correlation matrix for the following continuous variables showing the number of observations and significance level for each entry. Also, we may want to compute the correlation for multiple variables, in such instances, we need to provide a matrix for the coefficient.</p>
+<p><strong>Step 1</strong></p>
+<p>The simplest way is to reduce the variables in the dataset to the variables of interest. In this instance, we assigned a new variable name d_red and combined the select() function and the negative sign(-) to remove variables that will not be covered under this analysis.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>d_red <span class="ot">&lt;-</span> StOB <span class="sc">%&gt;%</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Age, BMI, DBP, SBP)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>d_red</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 95 × 4
+     Age   BMI   DBP   SBP
+   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1    60  24.7  79   120. 
+ 2    49  24.7  82   114  
+ 3    55  28.9  80   120  
+ 4    61  26.8  74   148  
+ 5    52  23.1  70   108  
+ 6    50  20.7  72.5  96.5
+ 7    52  24.6  89   146  
+ 8    55  20.7  87   132. 
+ 9    42  23.7  72   115  
+10    41  27.8 100   159  
+# ℹ 85 more rows</code></pre>
+</div>
+</div>
+<p><strong>Step 2</strong></p>
+<p>Then we can run our Pearson correlation analysis on the selected variables.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">cor</span>(d_red),</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">digits =</span> <span class="dv">2</span> <span class="co"># rounded to 2 decimals</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Age  BMI  DBP  SBP
+Age 1.00 0.17 0.15 0.30
+BMI 0.17 1.00 0.35 0.42
+DBP 0.15 0.35 1.00 0.82
+SBP 0.30 0.42 0.82 1.00</code></pre>
+</div>
+</div>
+<p><strong>Alternative presentation</strong></p>
+<p>There are several ways that the Pearson correlation analysis can be presented but let us try this method using the corrplot package which provides a matrix chart.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'corrplot' was built under R version 4.4.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>corrplot 0.95 loaded</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(<span class="fu">cor</span>(d_red),</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">method =</span> <span class="st">"number"</span>,</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">type =</span> <span class="st">"upper"</span> <span class="co"># show only upper side</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>         )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="biostats_with_R_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="linear-regression" class="level2">
+<h2 class="anchored" data-anchor-id="linear-regression">Linear Regression</h2>
+<p><strong>Simple model</strong></p>
+<p>The syntax for a simple linear regression model using the lm()function takes the variables in the format: lm(y~ x, data = data frame)</p>
+<p><strong>Example</strong></p>
+<p>Building up from the relationship seen in the scatter plot of systolic blood pressure (SBP) and BMI, to generate the simple linear model, the command and output are:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>lmSBP <span class="ot">=</span> <span class="fu">lm</span>(SBP<span class="sc">~</span>BMI, <span class="at">data =</span> StOB) <span class="co">#Create the linear regression model</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lmSBP) <span class="co">#Review the results</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = SBP ~ BMI, data = StOB)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-33.762 -11.483  -4.918  10.437  72.774 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  59.9857    16.5776   3.618 0.000482 ***
+BMI           2.8691     0.6404   4.480 2.12e-05 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 20.48 on 93 degrees of freedom
+Multiple R-squared:  0.1775,    Adjusted R-squared:  0.1687 
+F-statistic: 20.07 on 1 and 93 DF,  p-value: 2.119e-05</code></pre>
+</div>
+</div>
+<p>From the output, the p-value shows the explanatory variable BMI is significantly associated with the outcome SBP. The R-squared value is the coefficient of determination which tells us <strong>that 18.36%</strong> of the variability in the outcome (SBP) is explained by the independent variable (BMI). The adjusted R-squared is more useful in the adjusted model which will be covered subsequently. These measures tell us this is quite a good model. Additionally, coefficients in the model- which in this case are the mean changes in the outcome as the explanatory variable(s) change. For BMI, for every additional unit increase in BMI, the outcome SBP will also increase by <strong>2.89mmHg</strong>. Linear models of this kind are additive so a negative coefficient will mean the outcome decreases as the explanatory variable increases.</p>
+<p>A t-test is carried out on each coefficient in the model and the p-value determines if changes observed in the coefficient are significant or not.&nbsp;</p>
+<p><strong>Multiple model</strong></p>
+<p>As indicated earlier we could fit a linear model for multiple predictors which also take the lm()function but this time we will have more than one variable: The variable form will take lm(y~ x1+x2.., data = data frame)</p>
+<p>Example</p>
+<p>Building on the simple model example, suppose now we want to adjust for the effects of age on the relationship between the outcome (SBP) and BMI, the syntax and output are:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>lmSBP2 <span class="ot">=</span> <span class="fu">lm</span>(SBP<span class="sc">~</span>BMI<span class="sc">+</span>Age, <span class="at">data =</span> StOB) <span class="co">#Create the linear regression model</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lmSBP2) <span class="co">#Review the results</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = SBP ~ BMI + Age, data = StOB)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-41.316 -12.890  -3.642   8.512  66.250 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  37.5953    18.3705   2.047   0.0436 *  
+BMI           2.6048     0.6311   4.127 8.05e-05 ***
+Age           0.5722     0.2255   2.538   0.0128 *  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 19.91 on 92 degrees of freedom
+Multiple R-squared:  0.2313,    Adjusted R-squared:  0.2146 
+F-statistic: 13.84 on 2 and 92 DF,  p-value: 5.548e-06</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="categorical-outcomes" class="level1">
+<h1><strong>Categorical outcomes</strong></h1>
+<section id="frequencies-and-percentages" class="level2">
+<h2 class="anchored" data-anchor-id="frequencies-and-percentages">Frequencies and Percentages</h2>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

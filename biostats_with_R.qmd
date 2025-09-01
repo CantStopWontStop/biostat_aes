@@ -1,0 +1,205 @@
+---
+title: "Statistics Lesson"
+format: html
+editor: visual
+---
+
+[The R Stats Package](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/00Index.html)
+
+# Set up
+
+```{r}
+#| warning: false
+library(tidyverse)
+library(readxl)
+```
+
+```{r}
+StOB <- read_excel('Sample.xlsx')
+StOB
+```
+
+# t-tests
+
+## One-sample
+
+Assuming as a researcher, you want to determine if the mean BMI of our \[**Sample\]** dataset is significantly different from that of a neighbouring population with mean BMI of 25kg/m2.
+
+```{r}
+ttwt<-t.test(StOB$BMI, mu=25,
+              alternative = "two.sided")
+print(ttwt)
+```
+
+From the one-sample t-test results, the computed mean from the sample dataset is 25.7kg/m2 which is tested against the hypothetical value of 25kg/m2. R generates output for our null hypothesis of equivalence, we make use of the two-tailed alternate hypothesis of mean!=25 with its corresponding p-value 0.02857 which, if we are to be testing at a 5% significance level, we will reject our null statement. 
+
+## Two-sample
+
+With our previous example on BMI, now suppose we want to test if the BMI of our \[**Sample\]** dataset is different between males and females at 95% significance level, assuming the variance of BMI does not differ significantly between the two groups.
+
+```{r}
+
+ttwt1<-t.test(StOB$BMI~StOB$Sex, var.equal = TRUE,
+              alternative = "two.sided")
+print(ttwt1)
+
+```
+
+The p-value of the test is 0.2925, which is greater than the significance level alpha = 0.05. We can conclude that the average BMI is not significantly different between males and females.
+
+## Paired
+
+A paired t-test is a statistical procedure that tests whether the mean difference between two related groups is significantly different from zero. The values used in this test must be in pairs in two variables/columns. Only complete pairs are used in the analysis. 
+
+This can be done by using the same t.test(before , after , data = , paired = TRUE)but paired must be set to TRUE and then alternative can be added depending on the test.
+
+```{r}
+# t.test(StOBDt$SBP1, StOBDt$SBP2, paired = TRUE)
+```
+
+# Analysis of variance (ANOVA)
+
+## One-way ANOVA
+
+One-way ANOVA is a statistical method to test whether the means of two or more groups are equal. This can be done by using the oneway.test() or aov()function 
+
+**Example**
+
+From the StOB dataset, assuming we want to compare the mean systolic blood pressure across categories of education at 5% significance level, we use the following:
+
+```{r}
+one.way <- aov(SBP ~ Education,data = StOB)
+
+
+summary(one.way)
+```
+
+From the output above, our focus is the F-statistic p-value of 0.535 which is not significant at 5% and so we fail to reject the null hypothesis of no differences in mean systolic blood pressures across education.
+
+## Post hoc tests for One-way ANOVA
+
+The one-way ANOVA does not show exactly where differences in means are so post hoc tests may be carried out to investigate those differences. R provides post hoc tests such as **Bonferroni**, **Scheffe**, or **Sidak**, Tukeybut we will look at the **Bonferroni** test which is one of the more commonly used ones. 
+
+From our previous example, the function TukeyHSD()can be used for Tukey or pairwise.t.test(df\$y, df\$x, p.adj='bonferroni')can be used for Bonferroni method.
+
+```{r}
+pairwise.t.test(StOB$BMI, StOB$Education, p.adj='bonferroni')
+```
+
+## Two-way ANOVA
+
+```{r}
+drug_trial <- read_excel('Drug trial.xlsx')
+drug_trial
+```
+
+We will use the \[**Drug trial\]** dataset. Suppose as a researcher you want to investigate if there are differences in mean systolic blood pressure after the intervention, across categories of the drug used and the type of disease suffered by the patient. To carry out this investigation in R using the two-way ANOVA, the syntax and output are as follows: aov(y \~ x1 + x2, data = data frame)
+
+```{r}
+two.way <- aov(SBP2 ~ Drug + Disease, data = drug_trial)
+
+
+summary(two.way)
+```
+
+From the output there is a significant association between systolic blood pressure and drug type (p\<0.001) but not with disease (p=0.069).
+
+# Linear regression and Correlation
+
+## Scatter plots and regression lines
+
+```{r}
+#| echo: false
+
+StOB %>% 
+    ggplot(aes(x = BMI, y = SBP)) +
+    geom_point() +
+    geom_smooth(method = 'lm') +
+    theme_minimal()
+```
+
+## Pearson correlation
+
+The Pearson correlation is used to show the strength of a linear relationship between continuous variables. To do a Pearson correlation analysis in R, here are the steps:
+
+**Pairwise**
+
+The correlation coefficient can be computed using the functions cor()orcor.test() but you can see that the correlation method is not specified here. So this code can be extended to include that cor(dfx2, method = c("pearson "). Where dfx2 represents the two variables to be compared. We can simply compute the correlation for two variables Age and BMI as shown below.
+
+```{r}
+cor(StOB$Age, StOB$BMI, method = "pearson")
+```
+
+**Example**
+
+Using the \[**Sample\]** dataset, to generate a correlation matrix for the following continuous variables showing the number of observations and significance level for each entry. Also, we may want to compute the correlation for multiple variables, in such instances, we need to provide a matrix for the coefficient.
+
+**Step 1**
+
+The simplest way is to reduce the variables in the dataset to the variables of interest. In this instance, we assigned a new variable name d_red and combined the select() function and the negative sign(-) to remove variables that will not be covered under this analysis.
+
+```{r}
+d_red <- StOB %>%
+  select(Age, BMI, DBP, SBP)
+d_red
+```
+
+**Step 2**
+
+Then we can run our Pearson correlation analysis on the selected variables.
+
+```{r}
+round(cor(d_red),
+      digits = 2 # rounded to 2 decimals
+)
+```
+
+**Alternative presentation**
+
+There are several ways that the Pearson correlation analysis can be presented but let us try this method using the corrplot package which provides a matrix chart.
+
+```{r}
+
+library(corrplot)
+
+corrplot(cor(d_red),
+         method = "number",
+         type = "upper" # show only upper side
+         )
+```
+
+## Linear Regression
+
+**Simple model**
+
+The syntax for a simple linear regression model using the lm()function takes the variables in the format: lm(y\~ x, data = data frame)
+
+**Example**
+
+Building up from the relationship seen in the scatter plot of systolic blood pressure (SBP) and BMI, to generate the simple linear model, the command and output are:
+
+```{r}
+lmSBP = lm(SBP~BMI, data = StOB) #Create the linear regression model
+summary(lmSBP) #Review the results
+```
+
+From the output, the p-value shows the explanatory variable BMI is significantly associated with the outcome SBP. The R-squared value is the coefficient of determination which tells us **that 18.36%** of the variability in the outcome (SBP) is explained by the independent variable (BMI). The adjusted R-squared is more useful in the adjusted model which will be covered subsequently. These measures tell us this is quite a good model. Additionally, coefficients in the model- which in this case are the mean changes in the outcome as the explanatory variable(s) change. For BMI, for every additional unit increase in BMI, the outcome SBP will also increase by **2.89mmHg**. Linear models of this kind are additive so a negative coefficient will mean the outcome decreases as the explanatory variable increases.
+
+A t-test is carried out on each coefficient in the model and the p-value determines if changes observed in the coefficient are significant or not. 
+
+**Multiple model**
+
+As indicated earlier we could fit a linear model for multiple predictors which also take the lm()function but this time we will have more than one variable: The variable form will take lm(y\~ x1+x2.., data = data frame)
+
+Example
+
+Building on the simple model example, suppose now we want to adjust for the effects of age on the relationship between the outcome (SBP) and BMI, the syntax and output are:
+
+```{r}
+lmSBP2 = lm(SBP~BMI+Age, data = StOB) #Create the linear regression model
+summary(lmSBP2) #Review the results
+```
+
+# **Categorical outcomes**
+
+## Frequencies and Percentages
