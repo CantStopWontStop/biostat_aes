@@ -28,7 +28,7 @@ library(readxl)
 <https://github.com/CantStopWontStop/biostat_aes/blob/master/Drug%20trial.xlsx>
 
 ```{r}
-StOB <- read_excel('Sample.xlsx')
+StOB <- read_excel('data/Sample.xlsx')
 StOB
 ```
 
@@ -37,6 +37,11 @@ StOB
 ## One-sample
 
 Assuming as a researcher, you want to determine if the mean BMI of our \[**Sample\]** dataset is significantly different from that of a neighbouring population with mean BMI of 25kg/m2.
+
+```{r}
+StOB$BMI
+
+```
 
 ```{r}
 ttwt<-t.test(StOB$BMI, mu=25,
@@ -52,10 +57,16 @@ With our previous example on BMI, now suppose we want to test if the BMI of our 
 
 ```{r}
 
-ttwt1<-t.test(StOB$BMI~StOB$Sex, var.equal = TRUE,
+t.test(StOB$BMI~StOB$Sex, var.equal = TRUE,
               alternative = "two.sided")
-print(ttwt1)
 
+
+```
+
+```{r}
+t.test(StOB$BMI ~ StOB$Sex, 
+       var.equal = TRUE, 
+       alternative = "two.sided")
 ```
 
 The p-value of the test is 0.2925, which is greater than the significance level alpha = 0.05. We can conclude that the average BMI is not significantly different between males and females.
@@ -67,7 +78,12 @@ A paired t-test is a statistical procedure that tests whether the mean differenc
 This can be done by using the same t.test(before , after , data = , paired = TRUE)but paired must be set to TRUE and then alternative can be added depending on the test.
 
 ```{r}
-# t.test(StOBDt$SBP1, StOBDt$SBP2, paired = TRUE)
+drug_trial <- read_excel('data/Drug trial.xlsx')
+drug_trial
+```
+
+```{r}
+t.test(drug_trial$SBP1, drug_trial$SBP2, paired = TRUE)
 ```
 
 # Analysis of variance (ANOVA)
@@ -81,13 +97,19 @@ One-way ANOVA is a statistical method to test whether the means of two or more g
 From the StOB dataset, assuming we want to compare the mean systolic blood pressure across categories of education at 5% significance level, we use the following:
 
 ```{r}
-one.way <- aov(SBP ~ Education,data = StOB)
-
+one.way <- aov(SBP ~ Education, data = StOB)
 
 summary(one.way)
 ```
 
 From the output above, our focus is the F-statistic p-value of 0.535 which is not significant at 5% and so we fail to reject the null hypothesis of no differences in mean systolic blood pressures across education.
+
+```{r}
+bmi.one.way <- aov(BMI ~ Education, data = StOB)
+
+
+summary(bmi.one.way)
+```
 
 ## Post hoc tests for One-way ANOVA
 
@@ -96,13 +118,15 @@ The one-way ANOVA does not show exactly where differences in means are so post h
 From our previous example, the function TukeyHSD()can be used for Tukey or pairwise.t.test(df\$y, df\$x, p.adj='bonferroni')can be used for Bonferroni method.
 
 ```{r}
-pairwise.t.test(StOB$BMI, StOB$Education, p.adj='bonferroni')
+pairwise.t.test(StOB$BMI, 
+                StOB$Education, 
+                p.adj='bonferroni')
 ```
 
 ## Two-way ANOVA
 
 ```{r}
-drug_trial <- read_excel('Drug trial.xlsx')
+drug_trial <- read_excel('data/Drug trial.xlsx')
 drug_trial
 ```
 
@@ -129,6 +153,13 @@ StOB %>%
     geom_point() +
     geom_smooth(method = 'lm') +
     theme_minimal()
+```
+
+```{r}
+StOB %>% 
+    ggplot(aes(x = BMI, y = SBP)) +
+    geom_point() +
+    geom_smooth(method = 'lm')
 ```
 
 ## Pearson correlation
@@ -212,6 +243,22 @@ Building on the simple model example, suppose now we want to adjust for the effe
 lmSBP2 = lm(SBP~BMI+Age, data = StOB) #Create the linear regression model
 summary(lmSBP2) #Review the results
 ```
+
+# Logistic Regression
+
+## Binary Logistic Regression
+
+>  glm(y \~ x, family=binomial(logit), data=dataframe)
+
+glm = model (general linear model)
+
+y = outcome variable
+
+x= explanatory variable 
+
+family = type (binomial)
+
+data = data frame
 
 # **Categorical outcomes**
 

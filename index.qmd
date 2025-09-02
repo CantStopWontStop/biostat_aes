@@ -31,6 +31,8 @@ editor: visual
 
 [ggplot2: Elegant Graphics for Data Analysis](https://ggplot2-book.org/)
 
+[The Big Book of R](https://www.bigbookofr.com/)
+
 # DAY 1
 
 ```{r}

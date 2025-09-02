@@ -115,6 +115,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#pearson-correlation" id="toc-pearson-correlation" class="nav-link" data-scroll-target="#pearson-correlation">Pearson correlation</a></li>
   <li><a href="#linear-regression" id="toc-linear-regression" class="nav-link" data-scroll-target="#linear-regression">Linear Regression</a></li>
   </ul></li>
+  <li><a href="#logistic-regression" id="toc-logistic-regression" class="nav-link" data-scroll-target="#logistic-regression">Logistic Regression</a>
+  <ul>
+  <li><a href="#binary-logistic-regression" id="toc-binary-logistic-regression" class="nav-link" data-scroll-target="#binary-logistic-regression">Binary Logistic Regression</a></li>
+  </ul></li>
   <li><a href="#categorical-outcomes" id="toc-categorical-outcomes" class="nav-link" data-scroll-target="#categorical-outcomes"><strong>Categorical outcomes</strong></a>
   <ul>
   <li><a href="#frequencies-and-percentages" id="toc-frequencies-and-percentages" class="nav-link" data-scroll-target="#frequencies-and-percentages">Frequencies and Percentages</a></li>
@@ -139,7 +143,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><a href="https://github.com/CantStopWontStop/biostat_aes/blob/master/Sample.xlsx" class="uri">https://github.com/CantStopWontStop/biostat_aes/blob/master/Sample.xlsx</a></p>
 <p><a href="https://github.com/CantStopWontStop/biostat_aes/blob/master/Drug%20trial.xlsx" class="uri">https://github.com/CantStopWontStop/biostat_aes/blob/master/Drug%20trial.xlsx</a></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>StOB <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">'Sample.xlsx'</span>)</span>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>StOB <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">'data/Sample.xlsx'</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>StOB</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 95 × 16
@@ -167,9 +171,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="one-sample">One-sample</h2>
 <p>Assuming as a researcher, you want to determine if the mean BMI of our [<strong>Sample]</strong> dataset is significantly different from that of a neighbouring population with mean BMI of 25kg/m2.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>ttwt<span class="ot">&lt;-</span><span class="fu">t.test</span>(StOB<span class="sc">$</span>BMI, <span class="at">mu=</span><span class="dv">25</span>,</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(ttwt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>StOB<span class="sc">$</span>BMI</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 24.66 24.68 28.89 26.84 23.09 20.72 24.59 20.72 23.72 27.78 32.60 30.47
+[13] 29.29 26.38 24.88 27.34 24.44 27.09 25.21 25.78 23.09 28.96 26.06 27.18
+[25] 25.74 25.40 18.18 27.61 25.23 32.54 19.09 21.84 26.57 24.60 23.14 30.00
+[37] 28.57 20.54 25.38 23.57 26.84 28.63 26.54 25.09 25.57 21.02 27.38 25.58
+[49] 24.30 29.79 23.65 24.99 27.64 28.07 20.69 22.92 25.31 22.90 29.84 32.18
+[61] 25.81 20.12 24.92 28.49 33.11 23.10 24.59 24.80 26.68 25.78 23.05 23.75
+[73] 27.97 24.83 24.73 21.35 21.71 22.98 27.26 25.13 27.73 26.04 21.22 28.72
+[85] 25.71 30.77 25.97 22.17 27.40 22.67 28.54 29.77 36.57 25.01 19.53</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ttwt<span class="ot">&lt;-</span><span class="fu">t.test</span>(StOB<span class="sc">$</span>BMI, <span class="at">mu=</span><span class="dv">25</span>,</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(ttwt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     One Sample t-test
@@ -190,9 +207,26 @@ mean of x
 <h2 class="anchored" data-anchor-id="two-sample">Two-sample</h2>
 <p>With our previous example on BMI, now suppose we want to test if the BMI of our [<strong>Sample]</strong> dataset is different between males and females at 95% significance level, assuming the variance of BMI does not differ significantly between the two groups.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ttwt1<span class="ot">&lt;-</span><span class="fu">t.test</span>(StOB<span class="sc">$</span>BMI<span class="sc">~</span>StOB<span class="sc">$</span>Sex, <span class="at">var.equal =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(ttwt1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(StOB<span class="sc">$</span>BMI<span class="sc">~</span>StOB<span class="sc">$</span>Sex, <span class="at">var.equal =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Two Sample t-test
+
+data:  StOB$BMI by StOB$Sex
+t = -1.1716, df = 93, p-value = 0.2444
+alternative hypothesis: true difference in means between group 1 and group 2 is not equal to 0
+95 percent confidence interval:
+ -2.1359063  0.5507955
+sample estimates:
+mean in group 1 mean in group 2 
+       25.26044        26.05300 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(StOB<span class="sc">$</span>BMI <span class="sc">~</span> StOB<span class="sc">$</span>Sex, </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">var.equal =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Two Sample t-test
@@ -214,7 +248,40 @@ mean in group 1 mean in group 2
 <p>A paired t-test is a statistical procedure that tests whether the mean difference between two related groups is significantly different from zero. The values used in this test must be in pairs in two variables/columns. Only complete pairs are used in the analysis.&nbsp;</p>
 <p>This can be done by using the same t.test(before , after , data = , paired = TRUE)but paired must be set to TRUE and then alternative can be added depending on the test.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># t.test(StOBDt$SBP1, StOBDt$SBP2, paired = TRUE)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>drug_trial <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">'data/Drug trial.xlsx'</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>drug_trial</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 60 × 7
+     PID  Drug Disease  SBP1  SBP2  DBP1  DBP2
+   &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1     1     1       1  152.  109.  95.7  67.7
+ 2     2     1       1  148.  113.  93.9  69.8
+ 3     3     1       1  140.  121.  87.4  75.5
+ 4     4     1       1  152.  109.  95.9  67.2
+ 5     5     1       1  137.  124.  85.8  77.7
+ 6     6     1       1  141.  120.  89.0  73.8
+ 7     7     1       2  147.  114.  92.9  70.6
+ 8     8     1       2  144.  117.  90.3  72.4
+ 9     9     1       2  147.  114.  92.9  70.3
+10    10     1       2  141.  120.  88.1  74.1
+# ℹ 50 more rows</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(drug_trial<span class="sc">$</span>SBP1, drug_trial<span class="sc">$</span>SBP2, <span class="at">paired =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Paired t-test
+
+data:  drug_trial$SBP1 and drug_trial$SBP2
+t = 11.55, df = 59, p-value &lt; 2.2e-16
+alternative hypothesis: true mean difference is not equal to 0
+95 percent confidence interval:
+ 15.57445 22.10196
+sample estimates:
+mean difference 
+       18.83821 </code></pre>
+</div>
 </div>
 </section>
 </section>
@@ -226,10 +293,9 @@ mean in group 1 mean in group 2
 <p><strong>Example</strong></p>
 <p>From the StOB dataset, assuming we want to compare the mean systolic blood pressure across categories of education at 5% significance level, we use the following:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>one.way <span class="ot">&lt;-</span> <span class="fu">aov</span>(SBP <span class="sc">~</span> Education,<span class="at">data =</span> StOB)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(one.way)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>one.way <span class="ot">&lt;-</span> <span class="fu">aov</span>(SBP <span class="sc">~</span> Education, <span class="at">data =</span> StOB)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(one.way)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>            Df Sum Sq Mean Sq F value Pr(&gt;F)
 Education    1    291   290.7   0.564  0.455
@@ -238,13 +304,27 @@ Residuals   91  46898   515.4
 </div>
 </div>
 <p>From the output above, our focus is the F-statistic p-value of 0.535 which is not significant at 5% and so we fail to reject the null hypothesis of no differences in mean systolic blood pressures across education.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>bmi.one.way <span class="ot">&lt;-</span> <span class="fu">aov</span>(BMI <span class="sc">~</span> Education, <span class="at">data =</span> StOB)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bmi.one.way)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            Df Sum Sq Mean Sq F value Pr(&gt;F)
+Education    1   24.7   24.65   2.255  0.137
+Residuals   91  995.1   10.94               
+2 observations deleted due to missingness</code></pre>
+</div>
+</div>
 </section>
 <section id="post-hoc-tests-for-one-way-anova" class="level2">
 <h2 class="anchored" data-anchor-id="post-hoc-tests-for-one-way-anova">Post hoc tests for One-way ANOVA</h2>
 <p>The one-way ANOVA does not show exactly where differences in means are so post hoc tests may be carried out to investigate those differences. R provides post hoc tests such as <strong>Bonferroni</strong>, <strong>Scheffe</strong>, or <strong>Sidak</strong>, Tukeybut we will look at the <strong>Bonferroni</strong> test which is one of the more commonly used ones.&nbsp;</p>
 <p>From our previous example, the function TukeyHSD()can be used for Tukey or pairwise.t.test(df$y, df$x, p.adj=‘bonferroni’)can be used for Bonferroni method.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairwise.t.test</span>(StOB<span class="sc">$</span>BMI, StOB<span class="sc">$</span>Education, <span class="at">p.adj=</span><span class="st">'bonferroni'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairwise.t.test</span>(StOB<span class="sc">$</span>BMI, </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>                StOB<span class="sc">$</span>Education, </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">p.adj=</span><span class="st">'bonferroni'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Pairwise comparisons using t tests with pooled SD 
@@ -263,8 +343,8 @@ P value adjustment method: bonferroni </code></pre>
 <section id="two-way-anova" class="level2">
 <h2 class="anchored" data-anchor-id="two-way-anova">Two-way ANOVA</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>drug_trial <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">'Drug trial.xlsx'</span>)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>drug_trial</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>drug_trial <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">'data/Drug trial.xlsx'</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>drug_trial</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 60 × 7
      PID  Drug Disease  SBP1  SBP2  DBP1  DBP2
@@ -284,10 +364,10 @@ P value adjustment method: bonferroni </code></pre>
 </div>
 <p>We will use the [<strong>Drug trial]</strong> dataset. Suppose as a researcher you want to investigate if there are differences in mean systolic blood pressure after the intervention, across categories of the drug used and the type of disease suffered by the patient. To carry out this investigation in R using the two-way ANOVA, the syntax and output are as follows: aov(y ~ x1 + x2, data = data frame)</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>two.way <span class="ot">&lt;-</span> <span class="fu">aov</span>(SBP2 <span class="sc">~</span> Drug <span class="sc">+</span> Disease, <span class="at">data =</span> drug_trial)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(two.way)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>two.way <span class="ot">&lt;-</span> <span class="fu">aov</span>(SBP2 <span class="sc">~</span> Drug <span class="sc">+</span> Disease, <span class="at">data =</span> drug_trial)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(two.way)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>            Df Sum Sq Mean Sq F value   Pr(&gt;F)    
 Drug         1  530.2   530.2   17.45 0.000102 ***
@@ -306,7 +386,16 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <h2 class="anchored" data-anchor-id="scatter-plots-and-regression-lines">Scatter plots and regression lines</h2>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="biostats_with_R_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+<p><img src="biostats_with_R_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>StOB <span class="sc">%&gt;%</span> </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> BMI, <span class="at">y =</span> SBP)) <span class="sc">+</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">'lm'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="biostats_with_R_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -316,7 +405,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p><strong>Pairwise</strong></p>
 <p>The correlation coefficient can be computed using the functions&nbsp;cor()orcor.test() but you can see that the correlation method is not specified here. So this code can be extended to include that cor(dfx2, method = c(“pearson”). Where dfx2 represents the two variables to be compared. We can simply compute the correlation for two variables Age and BMI as shown below.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(StOB<span class="sc">$</span>Age, StOB<span class="sc">$</span>BMI, <span class="at">method =</span> <span class="st">"pearson"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(StOB<span class="sc">$</span>Age, StOB<span class="sc">$</span>BMI, <span class="at">method =</span> <span class="st">"pearson"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.1650147</code></pre>
 </div>
@@ -326,9 +415,9 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p><strong>Step 1</strong></p>
 <p>The simplest way is to reduce the variables in the dataset to the variables of interest. In this instance, we assigned a new variable name d_red and combined the select() function and the negative sign(-) to remove variables that will not be covered under this analysis.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>d_red <span class="ot">&lt;-</span> StOB <span class="sc">%&gt;%</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Age, BMI, DBP, SBP)</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>d_red</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>d_red <span class="ot">&lt;-</span> StOB <span class="sc">%&gt;%</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Age, BMI, DBP, SBP)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>d_red</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 95 × 4
      Age   BMI   DBP   SBP
@@ -349,9 +438,9 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p><strong>Step 2</strong></p>
 <p>Then we can run our Pearson correlation analysis on the selected variables.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">cor</span>(d_red),</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">digits =</span> <span class="dv">2</span> <span class="co"># rounded to 2 decimals</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">cor</span>(d_red),</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">digits =</span> <span class="dv">2</span> <span class="co"># rounded to 2 decimals</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     Age  BMI  DBP  SBP
 Age 1.00 0.17 0.15 0.30
@@ -363,14 +452,14 @@ SBP 0.30 0.42 0.82 1.00</code></pre>
 <p><strong>Alternative presentation</strong></p>
 <p>There are several ways that the Pearson correlation analysis can be presented but let us try this method using the corrplot package which provides a matrix chart.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot)</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(<span class="fu">cor</span>(d_red),</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">method =</span> <span class="st">"number"</span>,</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">type =</span> <span class="st">"upper"</span> <span class="co"># show only upper side</span></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>         )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(<span class="fu">cor</span>(d_red),</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">method =</span> <span class="st">"number"</span>,</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">type =</span> <span class="st">"upper"</span> <span class="co"># show only upper side</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>         )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="biostats_with_R_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+<p><img src="biostats_with_R_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -381,8 +470,8 @@ SBP 0.30 0.42 0.82 1.00</code></pre>
 <p><strong>Example</strong></p>
 <p>Building up from the relationship seen in the scatter plot of systolic blood pressure (SBP) and BMI, to generate the simple linear model, the command and output are:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>lmSBP <span class="ot">=</span> <span class="fu">lm</span>(SBP<span class="sc">~</span>BMI, <span class="at">data =</span> StOB) <span class="co">#Create the linear regression model</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lmSBP) <span class="co">#Review the results</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>lmSBP <span class="ot">=</span> <span class="fu">lm</span>(SBP<span class="sc">~</span>BMI, <span class="at">data =</span> StOB) <span class="co">#Create the linear regression model</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lmSBP) <span class="co">#Review the results</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -411,8 +500,8 @@ F-statistic: 20.07 on 1 and 93 DF,  p-value: 2.119e-05</code></pre>
 <p>Example</p>
 <p>Building on the simple model example, suppose now we want to adjust for the effects of age on the relationship between the outcome (SBP) and BMI, the syntax and output are:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>lmSBP2 <span class="ot">=</span> <span class="fu">lm</span>(SBP<span class="sc">~</span>BMI<span class="sc">+</span>Age, <span class="at">data =</span> StOB) <span class="co">#Create the linear regression model</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lmSBP2) <span class="co">#Review the results</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>lmSBP2 <span class="ot">=</span> <span class="fu">lm</span>(SBP<span class="sc">~</span>BMI<span class="sc">+</span>Age, <span class="at">data =</span> StOB) <span class="co">#Create the linear regression model</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lmSBP2) <span class="co">#Review the results</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -435,6 +524,20 @@ Multiple R-squared:  0.2313,    Adjusted R-squared:  0.2146
 F-statistic: 13.84 on 2 and 92 DF,  p-value: 5.548e-06</code></pre>
 </div>
 </div>
+</section>
+</section>
+<section id="logistic-regression" class="level1">
+<h1>Logistic Regression</h1>
+<section id="binary-logistic-regression" class="level2">
+<h2 class="anchored" data-anchor-id="binary-logistic-regression">Binary Logistic Regression</h2>
+<blockquote class="blockquote">
+<p>&nbsp;glm(y ~ x, family=binomial(logit), data=dataframe)</p>
+</blockquote>
+<p>glm = model (general linear model)</p>
+<p>y = outcome variable</p>
+<p>x= explanatory variable&nbsp;</p>
+<p>family = type (binomial)</p>
+<p>data = data frame</p>
 </section>
 </section>
 <section id="categorical-outcomes" class="level1">
