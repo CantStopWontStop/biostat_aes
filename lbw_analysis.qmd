@@ -1,6 +1,8 @@
 ---
 title: "Low Birth Weight Analysis"
 format: html
+execute: 
+  warning: false
 editor: visual
 ---
 
@@ -15,21 +17,12 @@ lbw_data <- read_excel('data/Low birth weight.xlsx')
 lbw_data
 ```
 
-```{r}
-
-contingency_table  <- table(lbw_data$smoke, lbw_data$low)
-
-contingency_table
-```
-
-```{r}
-prop.table(contingency_table)
-```
+## Simple frequency
 
 ```{r}
 lbw_data %>% 
     drop_na() %>% 
-    group_by(smoke, low) %>% 
+    group_by( low) %>% 
     summarise(count = n()) %>%
     ungroup() %>% 
   mutate(proportion = count / sum(count),
@@ -38,6 +31,70 @@ lbw_data %>%
 ```
 
 ```{r}
+lbw_data %>% 
+    drop_na() %>% 
+    group_by(smoke) %>% 
+    summarise(count = n()) %>%
+    ungroup() %>% 
+  mutate(proportion = count / sum(count),
+         percentage = (count / sum(count)) * 100) %>%
+  arrange(desc(proportion)) 
+```
+
+```{r}
+lbw_data %>% 
+    drop_na() %>% 
+    group_by(ui) %>% 
+    summarise(count = n()) %>%
+    ungroup() %>% 
+  mutate(proportion = count / sum(count),
+         percentage = (count / sum(count)) * 100) %>%
+  arrange(desc(proportion)) 
+```
+
+##  Cross Table
+
+```{r}
 library(gmodels)
-CrossTable(lbw_data$smoke, lbw_data$low)
+CrossTable(lbw_data$smoke, lbw_data$low, chisq = TRUE)
+```
+
+## t.test bwt vs smoking
+
+```{r}
+t.test(lbw_data$bwt ~ lbw_data$smoke, 
+       var.equal = TRUE, 
+       alternative = "two.sided")
+```
+
+## boxplot
+
+```{r}
+lbw_data %>% 
+    mutate(smoke_yn = if_else(smoke == 0, "No", "Yes")) %>% 
+    ggplot(aes(y = bwt, x = smoke_yn, fill = smoke_yn)) +
+    geom_boxplot() +
+    theme_minimal()
+```
+
+## Logistic Regression
+
+```{r}
+low_smoke <- glm(low ~ smoke, 
+              family=binomial(logit), data=lbw_data)
+summary(low_smoke)
+```
+
+```{r}
+exp(cbind(OR=coef(low_smoke), confint(low_smoke)))
+```
+
+```{r}
+low_smoke_ht <- glm(low ~ smoke + ht, 
+              family=binomial(logit), data=lbw_data)
+summary(low_smoke_ht)
+```
+
+```{r}
+exp(cbind(OR=coef(low_smoke_ht), confint(low_smoke_ht)))
 ```
