@@ -538,6 +538,109 @@ F-statistic: 13.84 on 2 and 92 DF,  p-value: 5.548e-06</code></pre>
 <p>x= explanatory variable&nbsp;</p>
 <p>family = type (binomial)</p>
 <p>data = data frame</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>StOB</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 95 × 16
+       UID   Age   BMI Smoker   CVD Outcome Diabetic   DBP Education Glucose
+     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+ 1 4343801    60  24.7      0     0       0        0  79           1      78
+ 2 8699070    49  24.7      0     1       1        0  82           2      60
+ 3 5169197    55  28.9      0     1       1        0  80           4      68
+ 4 4111268    61  26.8      0     0       1        0  74           2      91
+ 5 9062570    52  23.1      1     0       0        0  70           2      61
+ 6 6793529    50  20.7      1     0       0        0  72.5         2      77
+ 7  621362    52  24.6      0     0       1        1  89           3      73
+ 8 9059122    55  20.7      0     0       1        0  87           4      71
+ 9 5081457    42  23.7      1     0       0        0  72           3     100
+10 7796482    41  27.8      1     0       0        0 100           2      71
+# ℹ 85 more rows
+# ℹ 6 more variables: Heart &lt;dbl&gt;, Hypertension &lt;dbl&gt;, Sex &lt;dbl&gt;, Stroke &lt;dbl&gt;,
+#   SBP &lt;dbl&gt;, Cholestrol &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>hyp_chol <span class="ot">&lt;-</span> <span class="fu">glm</span>(Hypertension <span class="sc">~</span> Cholestrol, <span class="at">family=</span><span class="fu">binomial</span>(logit), <span class="at">data=</span>StOB)</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(hyp_chol)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = Hypertension ~ Cholestrol, family = binomial(logit), 
+    data = StOB)
+
+Coefficients:
+             Estimate Std. Error z value Pr(&gt;|z|)
+(Intercept) -0.192027   1.245679  -0.154    0.877
+Cholestrol   0.003964   0.005133   0.772    0.440
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 113.91  on 90  degrees of freedom
+Residual deviance: 113.30  on 89  degrees of freedom
+  (4 observations deleted due to missingness)
+AIC: 117.3
+
+Number of Fisher Scoring iterations: 4</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>lbw_data <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">'data/Low birth weight.xlsx'</span>)</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>lbw_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 189 × 10
+      id   low   age   lwt smoke   ptl    ht    ui   ftv   bwt
+   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1    85     0    19   182     0     0     0     1     0  2523
+ 2    86     0    33   155     0     0     0     0     3  2551
+ 3    87     0    20   105     1     0     0     0     1  2557
+ 4    88     0    21   108     1     0     0     1     2  2594
+ 5    89     0    18   107     1     0     0     1     0  2600
+ 6    91     0    21   124     0     0     0     0     0  2622
+ 7    92     0    22   118     0     0     0     0     1  2637
+ 8    93     0    17   103     0     0     0     0     1  2637
+ 9    94     0    29   123     1     0     0     0     1  2663
+10    95     0    26   113     1     0     0     0     0  2665
+# ℹ 179 more rows</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>ui_age <span class="ot">&lt;-</span> <span class="fu">glm</span>(ui <span class="sc">~</span> age, <span class="at">family=</span><span class="fu">binomial</span>(logit), <span class="at">data=</span>lbw_data)</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ui_age)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = ui ~ age, family = binomial(logit), data = lbw_data)
+
+Coefficients:
+            Estimate Std. Error z value Pr(&gt;|z|)
+(Intercept) -0.77663    0.95045  -0.817    0.414
+age         -0.04260    0.04137  -1.030    0.303
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 158.56  on 188  degrees of freedom
+Residual deviance: 157.45  on 187  degrees of freedom
+AIC: 161.45
+
+Number of Fisher Scoring iterations: 4</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">cbind</span>(<span class="at">OR=</span><span class="fu">coef</span>(hyp_chol), <span class="fu">confint</span>(hyp_chol)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                   OR      2.5 %   97.5 %
+(Intercept) 0.8252846 0.06887115 9.498825
+Cholestrol  1.0039723 0.99406358 1.014456</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">cbind</span>(<span class="at">OR=</span><span class="fu">coef</span>(ui_age), <span class="fu">confint</span>(ui_age)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                  OR      2.5 %   97.5 %
+(Intercept) 0.459953 0.07238992 3.060479
+age         0.958294 0.88002794 1.035863</code></pre>
+</div>
+</div>
 </section>
 </section>
 <section id="categorical-outcomes" class="level1">

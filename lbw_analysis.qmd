@@ -1,0 +1,43 @@
+---
+title: "Low Birth Weight Analysis"
+format: html
+editor: visual
+---
+
+```{r}
+library(tidyverse)
+library(readxl)
+library(gmodels)
+```
+
+```{r}
+lbw_data <- read_excel('data/Low birth weight.xlsx')
+lbw_data
+```
+
+```{r}
+
+contingency_table  <- table(lbw_data$smoke, lbw_data$low)
+
+contingency_table
+```
+
+```{r}
+prop.table(contingency_table)
+```
+
+```{r}
+lbw_data %>% 
+    drop_na() %>% 
+    group_by(smoke, low) %>% 
+    summarise(count = n()) %>%
+    ungroup() %>% 
+  mutate(proportion = count / sum(count),
+         percentage = (count / sum(count)) * 100) %>%
+  arrange(desc(proportion)) 
+```
+
+```{r}
+library(gmodels)
+CrossTable(lbw_data$smoke, lbw_data$low)
+```

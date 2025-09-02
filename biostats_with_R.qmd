@@ -260,6 +260,38 @@ family = type (binomial)
 
 data = data frame
 
+```{r}
+StOB
+```
+
+```{r}
+hyp_chol <- glm(Hypertension ~ Cholestrol, family=binomial(logit), data=StOB)
+summary(hyp_chol)
+```
+
+```{r}
+lbw_data <- read_excel('data/Low birth weight.xlsx')
+lbw_data
+```
+
+```{r}
+ui_age <- glm(ui ~ age, family=binomial(logit), data=lbw_data)
+summary(ui_age)
+```
+
+```{r}
+exp(cbind(OR=coef(hyp_chol), confint(hyp_chol)))
+```
+
+```{r}
+exp(cbind(OR=coef(ui_age), confint(ui_age)))
+```
+
+```{r}
+bdp_age <- glm(ui ~ age, family=binomial(logit), data=lbw_data)
+summary(ui_age)
+```
+
 # **Categorical outcomes**
 
 ## Frequencies and Percentages
