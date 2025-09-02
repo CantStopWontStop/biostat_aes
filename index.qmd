@@ -274,7 +274,7 @@ youngest
 ## Load Data
 
 ```{r}
-ebola_sl <- read_excel('Ebola_Sierra Leone.xlsx')
+ebola_sl <- read_excel('data/Ebola_Sierra Leone.xlsx')
 ebola_sl
 
 ```
@@ -693,7 +693,7 @@ ebola_sl_cleaned %>%
 # Sunday Practice Session
 
 ```{r}
-lbw_data <- read_excel('Low birth weight.xlsx')
+lbw_data <- read_excel('data/Low birth weight.xlsx')
 lbw_data
 ```
 
