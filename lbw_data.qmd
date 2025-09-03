@@ -1,0 +1,118 @@
+---
+title: "Low Birthweight Analysis"
+format: 
+    html:
+        theme: flatly
+        toc: true
+        toc-depth: 4
+execute: 
+  warning: false
+editor: visual
+---
+
+## Setup
+
+```{r}
+library(tidyverse)
+library(readxl)
+library(summarytools)
+library(gmodels)
+```
+
+## Load Data
+
+```{r}
+lbw_data <- read_excel('data/Low birth weight.xlsx') %>% 
+    rename(mother_weight = lwt,
+           preterm_labor = ptl,
+           hypertension = ht,
+           uterine_irritability = ui,
+           first_trimester_vist = ftv,
+           birth_weight = bwt) %>% 
+    mutate(smoke_yn = if_else(smoke == 1, 'Yes', 'No'),
+           hypertension_yn = factor(hypertension, 
+                                    labels = c('No', 'Yes'))
+           )
+
+lbw_data
+```
+
+## Simple Frequency Tables
+
+### Individual Frequency Tables
+
+```{r}
+
+
+lbw_data %>% 
+    group_by(smoke_yn) %>% 
+    summarise(count = n()) %>% 
+    ungroup() %>% 
+    summarise(smoke_yn, 
+              count,
+              proportion = round(count/sum(count), 2),
+              percentage = proportion * 100) %>% 
+    mutate(percentage_w_n = glue::glue('{count} ({percentage}%)' )) %>% 
+    select(smoke_yn, percentage_w_n)
+```
+
+```{r}
+lbw_data %>% 
+    group_by(hypertension_yn) %>% 
+    summarise(count = n()) %>% 
+    ungroup() %>% 
+    summarise(hypertension_yn, 
+              count,
+              proportion = round(count/sum(count), 2),
+              percentage = proportion * 100) %>% 
+    mutate(percentage_w_n = glue::glue('{count} ({percentage}%)')) %>%
+    select(hypertension_yn, percentage_w_n)
+```
+
+```{r}
+CrossTable(lbw_data$smoke_yn, lbw_data$hypertension_yn, chisq = TRUE)
+```
+
+```{r}
+CrossTable(lbw_data$smoke_yn, lbw_data$low, chisq = TRUE)
+```
+
+### Comprehensive Frequency Tables
+
+```{r}
+freq(lbw_data)
+```
+
+## T.Test
+
+```{r}
+t.test(lbw_data$birth_weight ~ lbw_data$smoke_yn, 
+       var.equal = TRUE, 
+       alternative = "two.sided")
+```
+
+```{r}
+lbw_data %>% 
+    ggplot(aes(x = smoke_yn, 
+               y = birth_weight, 
+               fill = smoke_yn)) +
+    geom_boxplot() +
+    theme_minimal()
+```
+
+## Logistic Regression
+
+```{r}
+
+glm(low ~ smoke, family = binomial(logit), data = lbw_data)
+```
+
+```{r}
+low_smoke_hyp <- glm(low ~ smoke + hypertension, family = binomial(logit), data = lbw_data)
+
+summary(low_smoke_hyp)
+```
+
+```{r}
+exp(cbind(OR = coef(low_smoke_hyp), confint(low_smoke_hyp)))
+```

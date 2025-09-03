@@ -52,7 +52,7 @@ lbw_data %>%
   arrange(desc(proportion)) 
 ```
 
-##  Cross Table
+## Cross Table
 
 ```{r}
 library(gmodels)

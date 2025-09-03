@@ -21,6 +21,8 @@ editor: visual
 
 [Biostats with R](https://cantstopwontstop.github.io/biostat_aes/biostats_with_R.html)
 
+[Low Birthweight Analysis](https://cantstopwontstop.github.io/biostat_aes/lbw_data.html)
+
 # Resources
 
 [R - Cran](https://cran.r-project.org/){target="'_blank'"}
