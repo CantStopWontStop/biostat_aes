@@ -4,10 +4,10 @@ title-block-banner: true
 format: 
     html:
         toc: true
-        theme: 'sandstone'
+        theme: 'flatly'
 
 execute:
-    warning: true
+    warning: false
     echo: true
     
 editor: visual
@@ -16,13 +16,15 @@ editor: visual
 # Corhort 2
 
 ```{r}
+#| code-fold: true
+
 library(leaflet)
 library(dplyr)
 
 # 1) Data for your cities
 cities <- tibble::tribble(
   ~city,          ~country,         ~lat,     ~lon,       ~participant, 
-  "Monrovia",     "Liberia",         6.3156, -10.8074,     "Mamawa",
+  "Monrovia",     "Liberia",         6.3156, -10.8074,     "Mamawah",
   "Port Harcourt","Nigeria",        4.8156,   7.0498,      "Aziba",
   "Abuja",        "Nigeria",         9.0765,   7.3986,     "Ruth",
   "Addis Ababa",  "Ethiopia",        9.0192,  38.7525,     "Habtamu",
@@ -36,6 +38,8 @@ cities <- tibble::tribble(
   "Lilongwe",     "Malawi",        -13.9626,  33.7741,     "Yankho",
   "Mbabane",      "Eswatini",      -26.3054,  31.1367,     "Ayanda",
   "Dar es Salaam",       "Tanzania",       -6.1629,  35.7516,     "Goodluck",
+   "Windhoek",     "Namibia",      -22.5597,  17.0832, "Lovisa",
+  "Juba",         "South Sudan",    4.8594,  31.5713, "Gama David"
 )
 
 # 2) Create the map
@@ -47,7 +51,7 @@ leaflet(cities) |>
     labelOptions = labelOptions(
       noHide = TRUE,      # always show labels
       direction = "top",  # show above the marker
-      textsize = "10px",
+      textsize = "12px",
       style = list("font-weight" = "bold",
                    "color" = "#000000",
                    "background-color" = "rgba(255,255,255,0.7)",
