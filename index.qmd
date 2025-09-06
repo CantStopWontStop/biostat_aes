@@ -13,6 +13,52 @@ execute:
 editor: visual
 ---
 
+# Corhort 2
+
+```{r}
+library(leaflet)
+library(dplyr)
+
+# 1) Data for your cities
+cities <- tibble::tribble(
+  ~city,          ~country,         ~lat,     ~lon,       ~participant, 
+  "Monrovia",     "Liberia",         6.3156, -10.8074,     "Mamawa",
+  "Port Harcourt","Nigeria",        4.8156,   7.0498,      "Aziba",
+  "Abuja",        "Nigeria",         9.0765,   7.3986,     "Ruth",
+  "Addis Ababa",  "Ethiopia",        9.0192,  38.7525,     "Habtamu",
+  "Asmara",       "Eritrea",        15.3229,  38.9251,     "Tedros",
+  "Porto-Novo",   "Benin",           6.4969,   2.6289,     "Banati",
+  "Yaounde",      "Cameroon",        3.8480,  11.5021,     "Pride",
+  "Douala",       "Cameroon",        4.0511,   9.7679,     "Ousmaila",
+  "Ouagadougou",  "Burkina Faso",   12.3714,  -1.5197,     "Mathurine",
+  "Port Louis",   "Mauritius",     -20.1669,  57.5020,     "Niloufer",
+  "Brazzaville",  "Congo",          -4.2634,  15.2429,     "Raiye",
+  "Lilongwe",     "Malawi",        -13.9626,  33.7741,     "Yankho",
+  "Mbabane",      "Eswatini",      -26.3054,  31.1367,     "Ayanda",
+  "Dar es Salaam",       "Tanzania",       -6.1629,  35.7516,     "Goodluck",
+)
+
+# 2) Create the map
+leaflet(cities) |>
+  addProviderTiles(providers$CartoDB.Positron)  |>
+  addLabelOnlyMarkers(
+    lng = ~lon, lat = ~lat,
+    label = ~sprintf("%s",participant),
+    labelOptions = labelOptions(
+      noHide = TRUE,      # always show labels
+      direction = "top",  # show above the marker
+      textsize = "10px",
+      style = list("font-weight" = "bold",
+                   "color" = "#000000",
+                   "background-color" = "rgba(255,255,255,0.7)",
+                   "padding" = "1px")
+    )
+  ) |>
+  fitBounds(lng1 = min(cities$lon), lat1 = min(cities$lat),
+            lng2 = max(cities$lon), lat2 = max(cities$lat)) |>
+  addScaleBar(position = "bottomleft")
+```
+
 # Session Pages
 
 [cantstopwontstop.github.io/biostat_aes](https://cantstopwontstop.github.io/biostat_aes/)
