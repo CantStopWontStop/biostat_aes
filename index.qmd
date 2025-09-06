@@ -1,11 +1,14 @@
 ---
 title: "African Epidemic Service - Biostatistics"
 title-block-banner: true
-format: docx
-        
+format: 
+    html:
+        toc: true
+        theme: 'sandstone'
+
 execute:
     warning: true
-    echo: false
+    echo: true
     
 editor: visual
 ---
