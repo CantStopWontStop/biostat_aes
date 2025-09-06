@@ -1,0 +1,259 @@
+---
+title: "Groups"
+format: html
+editor: visual
+---
+
+```{r}
+
+library(tidyverse)
+library(readxl)
+library(summarytools)
+library(gmodels)
+```
+
+```{r}
+lbw_data <- read_excel("data/Low birth weight.xlsx")
+
+lbw_data
+```
+
+```{r}
+lbw_data %>% 
+    select(low, smoke, ptl, ht, ui, ftv)%>% 
+    freq()
+```
+
+```{r}
+lbw_data %>% 
+    select(age, lwt, bwt) %>% 
+    summary()
+```
+
+```{r}
+lbw_data %>% 
+    select(age, lwt, bwt) %>% 
+    summarise(standard_deviation_age = sd(age),
+              standard_deviation_lwt = sd(lwt),
+              standard_deviation_bwt = sd(bwt),
+              mean_age = mean(age),
+              mean_lwt = mean(lwt),
+              mean_bwt = mean(bwt)
+              )
+```
+
+```{r}
+lbw_data %>% 
+    select(age, lwt, bwt) %>% 
+    summarise(standard_deviation_age = sd(age),
+              mean_age = mean(age)
+              )
+```
+
+```{r}
+lbw_data %>% 
+    group_by(ftv) %>% 
+    summarise(standard_deviation_age = sd(age),
+              standard_deviation_lwt = sd(lwt),
+              standard_deviation_bwt = sd(bwt),
+              mean_age = mean(age),
+              mean_lwt = mean(lwt),
+              mean_bwt = mean(bwt)
+              )
+    
+```
+
+```{r}
+lbw_factor <- lbw_data %>% 
+    select(low, smoke, ptl, ht, ui, ftv) %>% 
+    mutate(low = factor(low, levels = c(0, 1), labels = c('No', 'Yes')))
+
+lbw_factor
+```
+
+```{r}
+
+lbw_data_groups <- lbw_data %>%
+    mutate(
+        age_group = case_when(
+            age < 18 ~ "Underage",
+            age < 35 & age >= 18 ~ "Young Adult",
+            age >= 35 ~ "Adult",
+            TRUE ~ NA_character_
+        ),
+        lwt_kg = round(lwt * 0.45359237),
+        mother_weight_group = case_when(
+            lwt_kg < 50 ~ "Underweight",
+            lwt_kg < 70 & lwt_kg >= 50 ~ "Normal Weight",
+            lwt_kg < 90 & lwt_kg >= 70 ~ "Overweight",
+            lwt_kg >= 90 ~ "Obese"
+        ),
+        bwt_group = case_when(
+            bwt < 2500 ~ "Underweight",
+            bwt < 4000 & bwt >= 2500 ~ "Normal Weight",
+            bwt >= 4000 ~ "Overweight"
+        )
+        
+    ) %>% 
+    mutate(age_group = factor(age_group, levels = c("Underage",
+                                                    "Young Adult", 
+                                                    "Adult")))
+ 
+lbw_data_groups   
+
+```
+
+```{r}
+
+lbw_data_groups %>% 
+    group_by(age_group) %>% 
+    summarise(mean_lwt_kg = mean(lwt_kg))
+```
+
+```{r}
+
+lbw_data_groups %>% 
+    select(contains('group')) %>% 
+    freq()
+    
+```
+
+```{r}
+
+lbw_by_lwt <- glm(low ~ lwt, family = binomial(link = 'logit'), data = lbw_data)
+
+lbw_by_lwt
+```
+
+```{r}
+coef(lbw_by_lwt)
+```
+
+```{r}
+confint(lbw_by_lwt)
+```
+
+```{r}
+cbind(OR = coef(lbw_by_lwt), confint(lbw_by_lwt))
+```
+
+```{r}
+exp(cbind(OR = coef(lbw_by_lwt), confint(lbw_by_lwt)))
+```
+
+```{r}
+low_by_ftv <- glm(low ~ ftv, family = binomial(link = "logit"), data = lbw_data)
+
+low_by_ftv
+```
+
+```{r}
+exp(cbind(OR = coef(low_by_ftv), confint(low_by_ftv)))
+```
+
+```{r}
+low_by_ht_smoke <- glm(low ~ ht + smoke, family = binomial(link = "logit"), data = lbw_data)
+
+low_by_ht_smoke
+```
+
+```{r}
+exp(cbind(OR = coef(low_by_ht_smoke), confint(low_by_ht_smoke)))
+```
+
+```{r}
+
+lbw_data_groups %>% 
+    ggplot(aes(y = bwt)) +
+    geom_boxplot()
+```
+
+```{r}
+lbw_data_groups %>% 
+    ggplot(aes(y = bwt, x = mother_weight_group)) +
+    geom_boxplot(fill = "orange") +
+    theme_minimal()
+```
+
+```{r}
+lbw_data_groups %>% 
+    ggplot(aes(y = bwt, 
+               x = mother_weight_group, 
+               fill = mother_weight_group)) +
+    geom_boxplot() +
+    labs(title = "Distribution of Birthweight by Weight of the Mother",
+         x = "Mother's Weight Group",
+         y = "Birthweight") +
+    theme_minimal() +
+    theme(panel.grid.minor.y = element_blank(),
+          panel.grid.major.x = element_blank())
+```
+
+```{r}
+lbw_data_groups %>% 
+    ggplot(aes(y = bwt, 
+               x = mother_weight_group, 
+               fill = mother_weight_group)) +
+    geom_boxplot() +
+    labs(title = "Distribution of Birthweight by Weight of the Mother",
+         x = "Mother's Weight Group",
+         y = "Birthweight") +
+    theme_minimal() +
+    theme(panel.grid = element_blank())
+```
+
+```{r}
+lbw_data_groups %>% 
+    ggplot(aes(y = bwt, x = age_group)) +
+    geom_boxplot()
+```
+
+```{r}
+lbw_data_groups %>% 
+    ggplot(aes(y = bwt, x = age)) +
+    geom_point(color = "purple")
+```
+
+```{r}
+lbw_data_groups %>% 
+    ggplot(aes(y = bwt, x = age, colour = age_group)) +
+    geom_point()
+```
+
+```{r}
+lbw_data_groups %>% 
+    ggplot(aes(y = bwt, x = age, colour = ht)) +
+    geom_point()
+```
+
+```{r}
+lbw_data_groups %>% 
+    ggplot(aes(y = bwt, x = age, colour = ftv)) +
+    geom_point()
+```
+
+```{r}
+lbw_data_groups %>% 
+    ggplot(aes(y = bwt, x = age, colour = bwt_group)) +
+    geom_point() +
+    geom_smooth()
+```
+
+```{r}
+lbw_data_groups %>% 
+    ggplot(aes(y = bwt, x = age)) +
+    geom_point(aes(colour = bwt_group)) +
+    geom_smooth(method = 'lm', se = FALSE)
+```
+
+```{r}
+lbw_data_groups %>% 
+    ggplot(aes(y = bwt, 
+               x = mother_weight_group, 
+               fill = mother_weight_group)) +
+    geom_boxplot() +
+    labs(title = "Distribution of Birthweight by Weight of the Mother",
+         x = "Mother's Weight Group",
+         y = "Birthweight") +
+    theme_light()
+```

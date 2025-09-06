@@ -1,16 +1,11 @@
 ---
 title: "African Epidemic Service - Biostatistics"
 title-block-banner: true
-format: 
-    html:
-        theme: flatly
-        toc: true
-        toc-depth: 4
+format: docx
         
 execute:
-    warning: false
-    echo: true
-    output: true
+    warning: true
+    echo: false
     
 editor: visual
 ---
@@ -23,6 +18,8 @@ editor: visual
 
 [Low Birthweight Analysis](https://cantstopwontstop.github.io/biostat_aes/lbw_data.html)
 
+[Low Birthweight Analysis - Pt 2](https://cantstopwontstop.github.io/biostat_aes/lbw_data_analysis.html)
+
 # Resources
 
 [R - Cran](https://cran.r-project.org/){target="'_blank'"}
@@ -34,6 +31,8 @@ editor: visual
 [ggplot2: Elegant Graphics for Data Analysis](https://ggplot2-book.org/)
 
 [The Big Book of R](https://www.bigbookofr.com/)
+
+[Quarto](https://quarto.org/docs/reference/)
 
 # DAY 1
 
@@ -420,8 +419,7 @@ ebola_sl_cleaned <- ebola_sl %>%
 
     )
 
-ebola_sl_cleaned %>% 
-    datatable()
+ebola_sl_cleaned 
 ```
 
 ### summarise()
@@ -490,8 +488,7 @@ ebola_sl_cleaned %>%
         max_age  = max(age),
         min_sample_date = min(date_of_onset),
         max_sample_date = max(date_of_onset)
-    ) %>% 
-    datatable()
+    ) 
 ```
 
 ```{r}
@@ -504,8 +501,7 @@ ebola_sl_cleaned %>%
         max_age  = max(age),
         min_sample_date = min(date_of_onset),
         max_sample_date = max(date_of_onset)
-    ) %>% 
-    datatable()
+    )
 ```
 
 ## Plotting

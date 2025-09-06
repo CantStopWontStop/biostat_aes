@@ -80,7 +80,7 @@ CrossTable(lbw_data$smoke_yn, lbw_data$low, chisq = TRUE)
 ### Comprehensive Frequency Tables
 
 ```{r}
-freq(lbw_data)
+freq <- freq(lbw_data)
 ```
 
 ## T.Test
