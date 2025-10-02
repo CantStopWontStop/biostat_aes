@@ -1,6 +1,12 @@
 ---
 title: "Groups"
-format: html
+format: 
+    html:
+        theme: flatly
+        toc: true
+        toc-depth: 4
+execute: 
+  warning: false
 editor: visual
 ---
 

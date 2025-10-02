@@ -1,6 +1,10 @@
 ---
 title: "Low Birth Weight Analysis"
-format: html
+ormat: 
+    html:
+        theme: flatly
+        toc: true
+        toc-depth: 4
 execute: 
   warning: false
 editor: visual

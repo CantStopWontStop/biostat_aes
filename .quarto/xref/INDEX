@@ -1,0 +1,20 @@
+{
+  "lbw_data_analysis.qmd": {
+    "lbw_data_analysis.html": "a7f108cd"
+  },
+  "biostats_with_R.qmd": {
+    "biostats_with_R.html": "deaa7fa0"
+  },
+  "index.qmd": {
+    "index.html": "3a38469f"
+  },
+  "lbw_data.qmd": {
+    "lbw_data.html": "ec544df1"
+  },
+  "lbw_analysis.qmd": {
+    "lbw_analysis.html": "38a6a2cb"
+  },
+  "basics.qmd": {
+    "basics.html": "02a8ce28"
+  }
+}

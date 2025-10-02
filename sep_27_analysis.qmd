@@ -1,0 +1,439 @@
+---
+title: "Sep 27 Session"
+format: 
+    html:
+        theme: flatly
+        toc: true
+        toc-depth: 4
+execute:
+  warning: false
+editor: visual
+---
+
+```{r}
+library(tidyverse)
+library(gmodels)
+library(readxl)
+library(summarytools)
+library(epitools)
+```
+
+# ggplot Review
+
+```{r}
+ebola_data <- read_excel('data/Ebola_Sierra Leone.xlsx') %>% 
+    mutate(age_group = case_when(
+        age < 18 ~ 'minor',
+        age >= 18 & age < 65 ~ "adult",
+        age >= 65 ~ 'senior'
+    ),
+    sex       = factor(sex, labels = c('female', 'male')),
+    status    = factor(status, labels = c('negative', 'positive')),
+    age_group = factor(age_group, levels = c('minor', 'adult', 'senior') )
+    ) 
+
+ebola_data
+```
+
+## Histograms
+
+```{r}
+ebola_data %>% 
+    ggplot(aes(x = age)) +
+    geom_histogram(fill = 'orange', color = 'black') +
+    labs(title = 'Age Distribution',
+         x = 'Age',
+         y = 'Count') +
+    theme_minimal()
+    
+```
+
+## Boxplots
+
+```{r}
+ebola_data %>% 
+    drop_na(sex) %>% 
+    ggplot(aes(y = age, x = sex, fill = sex)) +
+    geom_boxplot() +
+    labs(title = 'Age Distribution by Sex',
+         x     = 'Sex',
+         y     = 'Age') +
+    theme_minimal() +
+    theme(legend.position = 'none',
+          plot.title = element_text(hjust = 0.5))
+```
+
+## Epicurves
+
+```{r}
+epicurve_data <- ebola_data %>% 
+    filter(status == "positive") %>% 
+    group_by(date_of_onset) %>% 
+    summarise(count = n())
+
+epicurve_data
+```
+
+```{r}
+
+epicurve_data %>% 
+    ggplot(aes(x = date_of_onset, y = count)) +
+    geom_col(fill = 'darkgreen') +
+    labs(title = 'New Cases by Day',
+         x     = 'Date of Onset',
+         y     = 'Cases') +
+    theme_minimal()
+    
+```
+
+```{r}
+epicurve_data <- ebola_data %>% 
+    drop_na(sex) %>% 
+    filter(status == "positive") %>% 
+    group_by(district, date_of_onset) %>% 
+    summarise(count = n())
+
+epicurve_data %>% 
+    ggplot(aes(x = date_of_onset, y = count)) +
+    geom_col(fill = 'darkgreen') +
+    labs(title = 'New Cases by Day',
+         x     = 'Date of Onset',
+         y     = 'Cases') +
+    theme_minimal() +
+    facet_wrap(~district)
+```
+
+```{r}
+ebola_data %>% 
+    drop_na(sex) %>% 
+    filter(status == "positive")  %>% 
+    mutate(weekly_cases = floor_date(date_of_onset, unit = 'week'))  %>% 
+    group_by(district, weekly_cases) %>% 
+    summarise(count = n()) %>% 
+    ggplot(aes(x = weekly_cases, y = count)) +
+    geom_col(fill = 'royalblue') +
+    labs(title = 'New Cases by Month',
+         x     = 'Date of Onset',
+         y     = 'Cases') +
+    theme_minimal()
+```
+
+```{r}
+
+ ebola_data %>% 
+    drop_na(sex) %>% 
+    filter(status == "positive")  %>% 
+    mutate(weekly_cases = floor_date(date_of_onset, unit = 'week'))  %>% 
+    group_by(district, weekly_cases) %>% 
+    summarise(count = n()) %>% 
+    ggplot(aes(x = weekly_cases, y = count)) +
+    geom_col(fill = 'royalblue') +
+    facet_wrap(~district) +
+    labs(title = 'New Cases by Week by District',
+         x     = 'Date of Onset',
+         y     = 'Cases') + 
+    theme_minimal()
+```
+
+```{r}
+ebola_data %>% 
+    drop_na(sex) %>% 
+    filter(status == "positive")  %>% 
+    mutate(weekly_cases = floor_date(date_of_onset, unit = 'week'))  %>% 
+    group_by(sex, weekly_cases) %>% 
+    summarise(count = n()) %>% 
+    ggplot(aes(x = weekly_cases, y = count, fill = sex)) +
+    geom_col(color = 'black') +
+    scale_fill_manual(values = c('pink', 'blue'))+
+    labs(title = 'New Cases by Month by Sex',
+         x     = 'Date of Onset',
+         y     = 'Cases') +
+    theme_minimal()
+```
+
+```{r}
+ebola_data %>% 
+    drop_na(sex) %>% 
+    filter(status == "positive")  %>% 
+    mutate(monthly_cases = floor_date(date_of_onset, unit = 'months')) %>% 
+    group_by(district, monthly_cases) %>% 
+    summarise(count = n()) %>% 
+    ggplot(aes(x = monthly_cases, y = count)) +
+    geom_col(fill = 'darkorange') +
+    labs(title = 'New Cases by Month',
+         x     = 'Date of Onset',
+         y     = 'Cases') +
+    theme_minimal()
+```
+
+```{r}
+
+ebola_data %>% 
+    drop_na(age_group) %>% 
+    filter(status == "positive")  %>% 
+    mutate(monthly_cases = floor_date(date_of_onset, unit = 'months')) %>% 
+    group_by(age_group, monthly_cases) %>% 
+    summarise(count = n()) %>% 
+    ggplot(aes(x = monthly_cases, y = count, fill = age_group)) +
+    geom_col() +
+    scale_fill_manual(values = c('gold',  '#a2a2a2', 'black'))+
+    labs(title = 'New Cases by Month by Age Group',
+         x     = 'Date of Onset',
+         y     = 'Cases') +
+    theme_minimal()
+```
+
+```{r}
+ebola_data %>% 
+    drop_na(age_group) %>% 
+    filter(status == "positive")  %>% 
+    mutate(monthly_cases = floor_date(date_of_onset, unit = 'months')) %>% 
+    group_by(age_group, monthly_cases) %>% 
+    summarise(count = n()) %>% 
+    ggplot(aes(x = monthly_cases, y = count, fill = age_group)) +
+    geom_col(position = 'dodge') +
+    scale_fill_manual(values = c('gold',  '#a2a2a2', 'black'))+
+    labs(title = 'New Cases by Month by Age Group',
+         x     = 'Date of Onset',
+         y     = 'Cases') +
+    theme_minimal()
+```
+
+```{r}
+ebola_data %>% 
+    drop_na() %>% 
+    filter(status == "positive")  %>% 
+    mutate(monthly_cases = floor_date(date_of_onset, unit = 'months')) %>% 
+    group_by(district, monthly_cases) %>% 
+    summarise(count = n()) %>% 
+    ggplot(aes(x = monthly_cases, y = count)) +
+    geom_col(fill = 'darkorange') +
+    labs(title = 'New Cases by Month by District',
+         x     = 'Date of Onset',
+         y     = 'Cases') +
+    facet_wrap(~district) + 
+    theme_minimal()
+```
+
+```{r}
+ebola_data %>% 
+    drop_na(sex) %>% 
+    filter(status == "positive")  %>% 
+    mutate(monthly_cases = floor_date(date_of_onset, unit = 'months')) %>% 
+    group_by(sex, monthly_cases) %>% 
+    summarise(count = n()) %>% 
+    ggplot(aes(x = monthly_cases, y = count, fill = sex)) +
+    geom_col()  +
+    scale_fill_manual(values = c('pink', 'blue')) +
+    labs(title = 'New Cases by Month by District',
+         x     = 'Date of Onset',
+         y     = 'Cases') +
+    facet_wrap(~sex) + 
+    theme_minimal() +
+    theme(legend.position = 'none')
+```
+
+# Proportion and Frequency Tables
+
+## CrossTable
+
+```{r}
+
+CrossTable(ebola_data$age_group, ebola_data$status, chisq = TRUE)
+```
+
+## freq()
+
+```{r}
+ebola_data %>% 
+    select(sex, age, district, chiefdom, age_group) %>% 
+    freq()
+```
+
+# Bivariate Analysis
+
+```{r}
+status_agegroup <- glm(status ~ age_group, 
+                       family = binomial("logit"), 
+                       data = ebola_data)
+
+status_agegroup
+```
+
+```{r}
+exp(cbind(OR = coef(status_agegroup), confint(status_agegroup)))
+```
+
+```{r}
+epitools::oddsratio(ebola_data$age_group,  ebola_data$status)
+```
+
+# Multivariate Analysis
+
+```{r}
+status_age_sex <- glm(status ~ age + sex, 
+                      family = binomial('logit'), 
+                      data = ebola_data)
+
+status_age_sex
+```
+
+```{r}
+exp(cbind(OR = coef(status_age_sex), confint(status_age_sex)))
+```
+
+```{r}
+sex_by_status <- table(ebola_data$sex, ebola_data$status)
+sex_by_status
+```
+
+```{r}
+epiR::epi.2by2(sex_by_status, method = "cohort.count")
+```
+
+# Anova Post Hoc
+
+```{r}
+ebola_data_raw <- read_excel('data/Ebola_Sierra Leone.xlsx') 
+
+ebola_data_raw
+```
+
+```{r}
+aov(status ~ sex, data = ebola_data_raw)
+```
+
+```{r}
+summary(aov(status ~ sex, data = ebola_data_raw))
+```
+
+# Survival Analysis
+
+```{r}
+# Install once if needed
+# install.packages(c("tidyverse", "lubridate", "survival", "survminer", "broom"))
+
+library(tidyverse)
+library(lubridate)
+library(survival)
+library(survminer)
+library(broom)
+
+# 1) READ DATA ---------------------------------------------------------------
+
+# Replace the path if needed
+df_raw <- readr::read_csv("data/Ebola_Simulated.csv",
+                          show_col_types = FALSE)
+
+# Peek
+glimpse(df_raw)
+
+# Expected columns in this file:
+# case_id, generation, date_of_infection, date_of_onset, date_of_hospitalisation,
+# date_of_outcome, outcome (0=recovered, 1=death), gender (0/1), hospital, longitude, latitude
+
+# 2) CLEAN & BUILD SURVIVAL OBJECT ------------------------------------------
+
+df <- df_raw %>%
+  mutate(
+    # Parse dates
+    date_of_onset  = ymd(date_of_onset),
+    date_of_outcome = ymd(date_of_outcome),
+
+    # Event indicator: death = 1, otherwise censored
+    status = case_when(
+      outcome == 1 ~ 1L,                 # died
+      TRUE ~ 0L                           # recovered or unknown -> treat as censored
+    ),
+
+    # Time origin: symptom onset (you can change the origin if your question differs)
+    # Time-to-event in DAYS
+    time = as.numeric(difftime(date_of_outcome, date_of_onset, units = "days"))
+  ) %>%
+  # Keep rows with a defined onset and non-negative time
+  filter(!is.na(date_of_onset), !is.na(time), time >= 0) %>%
+  mutate(
+    gender = factor(gender, levels = c(0,1), labels = c("Female","Male")),
+    hospital = factor(hospital),                 # treat as categorical site indicator
+    generation = as.integer(generation)
+  )
+
+summary(df$time)
+table(df$status, useNA = "ifany")
+table(df$gender, useNA = "ifany")
+
+```
+
+```{r}
+# Survival object
+surv_obj <- Surv(time = df$time, event = df$status)
+
+# 2a) Overall KM -------------------------------------------------------------
+fit_km_overall <- survfit(surv_obj ~ 1, data = df)
+summary(fit_km_overall)
+
+# 2b) KM by gender -----------------------------------------------------------
+fit_km_gender <- survfit(surv_obj ~ gender, data = df)
+summary(fit_km_gender)
+
+# 2c) Log-rank test (gender) -------------------------------------------------
+logrank_gender <- survdiff(surv_obj ~ gender, data = df)
+logrank_gender
+broom::tidy(logrank_gender)  # gives chisq and p-value in a tidy tibble
+
+```
+
+```{r}
+# Start with a simple model
+cox1 <- coxph(surv_obj ~ gender, data = df)
+summary(cox1)
+
+# Add additional covariates (example: generation and hospital as categorical site)
+# Only include covariates that are well-populated (few NAs) and make clinical sense.
+cox2 <- coxph(surv_obj ~ gender + generation + hospital, data = df)
+summary(cox2)
+
+# Tidy outputs with hazard ratios and CIs
+tidy_cox2 <- broom::tidy(cox2, exponentiate = TRUE, conf.int = TRUE)
+tidy_cox2
+
+```
+
+```{r}
+# Grambsch–Therneau test for PH assumption
+ph_test <- cox.zph(cox2)
+ph_test
+plot(ph_test)  # diagnostic plots; look for no strong trends in residuals over time
+
+```
+
+```{r}
+# 5a) KM curve: overall ------------------------------------------------------
+p_overall <- ggsurvplot(
+  fit_km_overall,
+  data = df,
+  conf.int = TRUE,
+  risk.table = TRUE,
+  xlab = "Days since symptom onset",
+  ylab = "Survival probability",
+  title = "Overall Kaplan–Meier Survival",
+  ggtheme = theme_minimal(base_size = 13)
+)
+p_overall
+
+# 5b) KM stratified by gender -----------------------------------------------
+p_gender <- ggsurvplot(
+  fit_km_gender,
+  data = df,
+  conf.int = TRUE,
+  risk.table = TRUE,
+  pval = TRUE,                 # shows log-rank p-value
+  xlab = "Days since symptom onset",
+  ylab = "Survival probability",
+  title = "Kaplan–Meier Survival by Gender",
+  legend.title = "Gender",
+  ggtheme = theme_minimal(base_size = 13)
+)
+p_gender
+
+```

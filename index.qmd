@@ -73,6 +73,8 @@ leaflet(cities) |>
 
 [Low Birthweight Analysis - Pt 2](https://cantstopwontstop.github.io/biostat_aes/lbw_data_analysis.html)
 
+[Sep 27, 2025 Online Session](https://cantstopwontstop.github.io/biostat_aes/sep_27_analysis.html)
+
 # Resources
 
 [R - Cran](https://cran.r-project.org/){target="'_blank'"}
@@ -86,6 +88,30 @@ leaflet(cities) |>
 [The Big Book of R](https://www.bigbookofr.com/)
 
 [Quarto](https://quarto.org/docs/reference/)
+
+### Survival Analysis Videos
+
+::: panel-tabset
+## Theory
+
+{{< video https://www.youtube.com/watch?v=Wo9RNcHM_bs >}}
+
+{{< video https://www.youtube.com/watch?v=L_ziqYhksG8 >}}
+
+{{< video https://www.youtube.com/watch?v=FhUkDRzHdHE >}}
+
+{{< video https://www.youtube.com/watch?v=DpZoRqqDgXA >}}
+
+## Survival Analysis with R
+
+{{< video https://www.youtube.com/watch?v=vX3l36ptrTU&list=PLqzoL9-eJTNDdnKvep_YHIwk2AMqHhuJ0 >}}
+
+{{< video https://www.youtube.com/watch?v=XrvCCFQRCZE >}}
+
+{{< video https://www.youtube.com/watch?v=Y_83HXuHMdc >}}
+
+{{< video https://www.youtube.com/watch?v=F-N_Pz2sPlg >}}
+:::
 
 # DAY 1
 
